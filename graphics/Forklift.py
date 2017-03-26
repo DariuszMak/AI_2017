@@ -25,7 +25,6 @@ class Forklift(pygame.sprite.Sprite):
 
     def moveDown(self,):
         self.y -= 1
-        self.rect.y = self.y * GRID_DISTANCE
 
     def display(self, display):
         self.rect.x = self.x * GRID_DISTANCE
