@@ -1,17 +1,10 @@
 import pygame
 import os
-import Forklift
-from DisplaySettings import *
+from . import Forklift
+from .DisplaySettings import *
 
-pygame.init()
 
-gameDisplay = pygame.display.set_mode((GAME_DISPLAY_WIDTH + MENU_WIDTH, GAME_DISPLAY_HEIGHT ))
-pygame.display.set_caption(CAPTION)
-clock = pygame.time.Clock()
-
-forklift = Forklift.Forklift(0, 0)
-
-def game_loop():
+def game_loop(gameDisplay, clock, forklift):
     gameExit = False
     while not gameExit:
 
@@ -42,6 +35,20 @@ def game_loop():
         pygame.display.update()
         clock.tick(TICK)
 
-game_loop()
-pygame.quit()
-quit()
+
+
+def run():
+
+    pygame.init()
+    gameDisplay = pygame.display.set_mode((GAME_DISPLAY_WIDTH + MENU_WIDTH, GAME_DISPLAY_HEIGHT ))
+    pygame.display.set_caption(CAPTION)
+    clock = pygame.time.Clock()
+
+    forklift = Forklift.Forklift(0, 0)
+
+    game_loop(gameDisplay, clock, forklift)
+
+    pygame.quit()
+    quit()
+
+run()

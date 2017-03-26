@@ -1,16 +1,13 @@
 import pygame
 import os
-from DisplaySettings import *
-
+from .DisplaySettings import *
 
 class Forklift(pygame.sprite.Sprite):
 
     def __init__(self, x, y):
         pygame.sprite.Sprite.__init__(self)
-
-        self.image= pygame.image.load(os.path.join('images','forklift.png'))
+        self.image= pygame.image.load(os.path.join('graphics','images','forklift.png'))
         self.rect = self.image.get_rect()
-
         self.x, self.y = x, y
 
 
