@@ -47,7 +47,7 @@ def run():
     pygame.display.set_caption(CAPTION)
     clock = pygame.time.Clock()
 
-    forklift = Forklift(0, 0)
+    forklift = Forklift(6, 6)
     grid = Grid(GAME_DISPLAY_WIDTH , GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
 
     game_loop(gameDisplay, clock, grid, forklift,)
