@@ -1,10 +1,13 @@
 import pygame
 import os
-from . import Forklift
+# import AI_2017
+from commands.ForkliftCommand import forkliftCommand
+from commands.Grid import Grid
+from .Forklift import Forklift
 from .DisplaySettings import *
 
 
-def game_loop(gameDisplay, clock, forklift):
+def game_loop(gameDisplay, clock, grid, forklift):
     gameExit = False
     while not gameExit:
 
@@ -22,6 +25,8 @@ def game_loop(gameDisplay, clock, forklift):
                 if event.key == pygame.K_DOWN:
                     forklift.moveUp()
 
+        forkliftCommand(forklift, grid)
+
         gameDisplay.fill(WHITE)
 
         for i in range(0, GAME_DISPLAY_WIDTH + GRID_DISTANCE, GRID_DISTANCE):
@@ -35,8 +40,6 @@ def game_loop(gameDisplay, clock, forklift):
         pygame.display.update()
         clock.tick(TICK)
 
-
-
 def run():
 
     pygame.init()
@@ -44,9 +47,10 @@ def run():
     pygame.display.set_caption(CAPTION)
     clock = pygame.time.Clock()
 
-    forklift = Forklift.Forklift(0, 0)
+    forklift = Forklift(0, 0)
+    grid = Grid(GAME_DISPLAY_WIDTH , GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
 
-    game_loop(gameDisplay, clock, forklift)
+    game_loop(gameDisplay, clock, grid, forklift,)
 
     pygame.quit()
     quit()

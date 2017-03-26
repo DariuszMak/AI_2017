@@ -1,3 +1,4 @@
+
 class Grid():
     def __init__(self, GAME_DISPLAY_WIDTH , GAME_DISPLAY_HEIGHT, GRID_DISTANCE):
         self._WIDTH = int(GAME_DISPLAY_WIDTH / GRID_DISTANCE )
