@@ -1,0 +1,42 @@
+algorytm a*
+co ma gdzie przejść itp- przesuniecia paczek i zarzadzaniem ramiona wózku itp
+
+
+
+kilka rodzajów paczek
+
+rozpoznawanie paczek:
+np kody (sieci neuronowe)
+
+inne symbole paczki- np że jest wrażłiwa (też sieci 
+neuronowe) 
+
+2 osoby ten sam rodzaj metody do 2 różnych zagadnień
+
+drzewa decyzyjne (ale paczki musza byc opisane cechami)
+np może być waga paczki, wyznaczenie rozmiaru paczki
+(wejście do systemu to np opis cech paczki, zdjecia - uczenie drzewa decyzyjnego,
+
+
+np decyzja czy cos ma byc postawione na górze paczek czy na dole- zależy od wagi i rozmiaru
+
+
+albo np krótki termin przydatnosci do spozycia czy niebezpieczne- mozna klasc 
+do konkretnego sektora
+
+
+rozmieszcenie towarów w globalnej skali- algorytmy genetyczne
+są różne rozplanowania
+np mlay towar na wieksza odleglosc, albo duzy na mniejsza
+
+albo chemikalia nie moga lezyc kolo siebie
+
+algorytm genetyczny do rozplanowania rzeczy:
+rozmieszczenie rzeczy na magazynie
+
+
+
+
+uczenie symboliczne
+
+
