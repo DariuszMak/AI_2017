@@ -1,4 +1,4 @@
-import graphics.Graphics
+import game.Game
 import Grid
 
 graphics.Graphics.run()

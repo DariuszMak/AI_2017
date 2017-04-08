@@ -3,8 +3,8 @@ import os
 # import AI_2017
 from commands.ForkliftCommand import forkliftCommand
 from commands.Grid import Grid
-from .Forklift import Forklift
-from .DisplaySettings import *
+from .Forklift import Forklift, ForkliftOutOfGridError
+from .display_settings import *
 
 
 def game_loop(gameDisplay, clock, grid, forklift):
@@ -17,13 +17,19 @@ def game_loop(gameDisplay, clock, grid, forklift):
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    forklift.moveLeft()
+                    forklift.turnLeft()
                 if event.key == pygame.K_RIGHT:
-                    forklift.moveRight()
+                    forklift.turnRight()
                 if event.key == pygame.K_UP:
-                    forklift.moveDown()
+                    try:
+                        forklift.moveForward()
+                    except ForkliftOutOfGridError:
+                        pass
                 if event.key == pygame.K_DOWN:
-                    forklift.moveUp()
+                    try:
+                        forklift.moveBackward()
+                    except ForkliftOutOfGridError:
+                        pass
 
         forkliftCommand(forklift, grid)
 
