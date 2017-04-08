@@ -6,5 +6,8 @@ dowiadujecie się o wszystkim za pomocą grid ( i obiektów  w grid) oraz forkli
 a jeżeli chcecie coś zmodyfikować to tylko i wyłącznie za pomocą
 metod forklift
 
+wszystkie niedozwolone rzeczy będą sygnalizowane wyjątkami
+(np jak chcecie wyjechać poza siatkę)
+
 polecam robić osobny katalog w katalogu głównym na każdą z metod
 "sztucznych inteligencji"
