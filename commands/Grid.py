@@ -4,4 +4,4 @@ class Grid():
         self._WIDTH = int(GAME_DISPLAY_WIDTH / GRID_DISTANCE )
         self._HEIGHT = int(GAME_DISPLAY_WIDTH / GRID_DISTANCE )
 
-        self.grid = [[list() for i in range(self._WIDTH)] for i in range(self._HEIGHT)]
+        self.grid = [[None for i in range(self._WIDTH)] for i in range(self._HEIGHT)]
