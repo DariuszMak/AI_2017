@@ -3,7 +3,8 @@ import os
 # import AI_2017
 from commands.ForkliftCommand import forkliftCommand
 from commands.Grid import Grid
-from .Forklift import *
+from .Forklift import Forklift
+from .ForkliftExceptions import *
 from .Package import Package
 from .display_settings import *
 
@@ -28,19 +29,26 @@ def game_loop(gameDisplay, clock, grid, forklift):
                     except ForkliftTurningWithLoweredPackage:
                         pass
                 if event.key == pygame.K_SPACE:
-                    if forklift.carryingPackage:
-                        forklift.lowerPackage(grid)
-                    else:
-                        forklift.liftPackage(grid)
+                    try:
+                        if forklift.carryingPackage:
+                            forklift.lowerPackage(grid)
+                        else:
+                            forklift.liftPackage(grid)
+                    except (ForkliftNotCarryingPackage, ForkliftNotOnPackagePosition):
+                        pass
                 if event.key == pygame.K_UP:
                     try:
                         forklift.moveForward(grid)
-                    except (ForkliftOutOfGridError, ForkliftPackageCollison):
+                    except (ForkliftOutOfGridError,
+                            ForkliftMovedForwardWithPackageOnLoweredFork,
+                            ForkliftMovingOnPackagePosAlreadyCarryingPackage):
                         pass
                 if event.key == pygame.K_DOWN:
                     try:
                         forklift.moveBackward(grid)
-                    except (ForkliftOutOfGridError, ForkliftPackageCollison):
+                    except (ForkliftOutOfGridError,
+                            ForkliftMovingOnPackagePosAlreadyCarryingPackage,
+                            ForkliftMovedBackwardIntoPackage):
                         pass
 
         forkliftCommand(forklift, grid)
@@ -78,6 +86,8 @@ def run():
     package = Package()
     grid = Grid(GAME_DISPLAY_WIDTH , GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
     grid.grid[8][8] = package
+    grid.grid[2][5] = package
+    grid.grid[0][0] = package
 
     game_loop(gameDisplay, clock, grid, forklift)
 

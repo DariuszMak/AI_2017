@@ -2,24 +2,7 @@ import pygame
 import os
 from .display_settings import *
 from .rot_center import rot_center
-
-class ForkliftOutOfGridError(Exception):
-    pass
-
-class ForkliftPackageCollison(Exception):
-    pass
-
-class ForkliftNotOnPackagePosition(Exception):
-    pass
-
-class ForkliftAlreadyCarryingPackage(Exception):
-    pass
-
-class ForkliftNotCarryingPackage(Exception):
-    pass
-
-class ForkliftTurningWithLoweredPackage(Exception):
-    pass
+from .ForkliftExceptions import *
 
 class Forklift(pygame.sprite.Sprite):
 
@@ -59,11 +42,14 @@ class Forklift(pygame.sprite.Sprite):
     def _changePosOrRaiseException(self, grid, isMoveForward, x_shift, y_shift):
         if self._isPositionOutOfGrid(GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
             raise ForkliftOutOfGridError
-        elif self._isOnPackagePosition(grid) and isMoveForward:
-            raise ForkliftPackageCollison
-        else:
-            self.x += x_shift
-            self.y += y_shift
+        if self.carryingPackage and grid.grid[self.x + x_shift][self.y + y_shift]:
+            raise ForkliftMovingOnPackagePosAlreadyCarryingPackage
+        if self._isOnPackagePosition(grid) and isMoveForward:
+            raise ForkliftMovedForwardWithPackageOnLoweredFork
+        if grid.grid[self.x + x_shift][self.y + y_shift] and not isMoveForward:
+            raise ForkliftMovedBackwardIntoPackage
+        self.x += x_shift
+        self.y += y_shift
 
     def liftPackage(self, grid):
         if self.carryingPackage:
