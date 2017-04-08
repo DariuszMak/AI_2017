@@ -1,0 +1,10 @@
+Jedyny sposób w jaki komunikujemy się ze światem gry to plik
+commands/sForkliftCommand.py
+
+dowiadujecie się o wszystkim za pomocą grid ( i obiektów  w grid) oraz forklift
+
+a jeżeli chcecie coś zmodyfikować to tylko i wyłącznie za pomocą
+metod forklift
+
+polecam robić osobny katalog w katalogu głównym na każdą z metod
+"sztucznych inteligencji"

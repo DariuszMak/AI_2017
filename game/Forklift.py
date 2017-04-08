@@ -1,7 +1,6 @@
 import pygame
 import os
 from .display_settings import *
-from .rot_center import rot_center
 from .ForkliftExceptions import *
 
 class Forklift(pygame.sprite.Sprite):
@@ -17,15 +16,31 @@ class Forklift(pygame.sprite.Sprite):
                 'left' : 'up'  }
 
     def __init__(self, x, y):
-        pygame.sprite.Sprite.__init__(self)
-        self.imageWithNoPackage = pygame.image.load(os.path.join('game','images','forklift.png'))
-        self.imageWithPackageLow = pygame.image.load(os.path.join('game','images','forklift-with-package-low-pos.png'))
-        self.imageWithPackageHigh = pygame.image.load(os.path.join('game','images','forklift-with-package-high-pos.png'))
-        self.image= self.imageWithNoPackage
-        self.rect = self.image.get_rect()
+
         self.x, self.y = x, y
         self.direction = "up"
         self.carryingPackage = None
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self._imageWithNoPackageUP = pygame.image.load(os.path.join('game','images','forklift-with-no-package-UP.png'))
+        self._imageWithNoPackageRIGHT = pygame.image.load(os.path.join('game','images','forklift-with-no-package-RIGHT.png'))
+        self._imageWithNoPackageDOWN = pygame.image.load(os.path.join('game','images','forklift-with-no-package-DOWN.png'))
+        self._imageWithNoPackageLEFT = pygame.image.load(os.path.join('game','images','forklift-with-no-package-LEFT.png'))
+
+        self._imageWithPackageLowUP = pygame.image.load(os.path.join('game','images','forklift-with-package-low-pos-UP.png'))
+        self._imageWithPackageLowRIGHT = pygame.image.load(os.path.join('game','images','forklift-with-package-low-pos-RIGHT.png'))
+        self._imageWithPackageLowDOWN = pygame.image.load(os.path.join('game','images','forklift-with-package-low-pos-DOWN.png'))
+        self._imageWithPackageLowLEFT = pygame.image.load(os.path.join('game','images','forklift-with-package-low-pos-LEFT.png'))
+
+        self._imageWithPackageHighUP = pygame.image.load(os.path.join('game','images','forklift-with-package-high-pos-UP.png'))
+        self._imageWithPackageHighRIGHT = pygame.image.load(os.path.join('game','images','forklift-with-package-high-pos-RIGHT.png'))
+        self._imageWithPackageHighDOWN = pygame.image.load(os.path.join('game','images','forklift-with-package-high-pos-DOWN.png'))
+        self._imageWithPackageHighLEFT = pygame.image.load(os.path.join('game','images','forklift-with-package-high-pos-LEFT.png'))
+
+        self._image= self._imageWithNoPackageUP
+        self._rect = self._imageWithPackageHighLEFT.get_rect()
+
 
     def _isPositionOutOfGrid(self, GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
         if 0 <= self.x + x_shift <= GRID_WIDTH - 1 and 0 <= self.y + y_shift <= GRID_HEIGHT - 1 :
@@ -99,23 +114,37 @@ class Forklift(pygame.sprite.Sprite):
             raise ForkliftTurningWithLoweredPackage
         self.direction = Forklift.toLeft[self.direction]
 
-    def display(self, display, grid):
-        self.rect.x = self.x * GRID_DISTANCE
-        self.rect.y = self.y * GRID_DISTANCE
+
+    def _display(self, display, grid):
+        self._rect.x = self.x * GRID_DISTANCE
+        self._rect.y = self.y * GRID_DISTANCE
 
         if self.carryingPackage:
-            image = self.imageWithPackageHigh
+            if self.direction == 'up':
+                image = self._imageWithPackageHighUP
+            elif self.direction == 'right':
+                image = self._imageWithPackageHighRIGHT
+            elif self.direction == 'down':
+                image = self._imageWithPackageHighDOWN
+            elif self.direction == 'left':
+                image = self._imageWithPackageHighLEFT
         elif self._isOnPackagePosition(grid):
-            image = self.imageWithPackageLow
+            if self.direction == 'up':
+                image = self._imageWithPackageLowUP
+            elif self.direction == 'right':
+                image = self._imageWithPackageLowRIGHT
+            elif self.direction == 'down':
+                image = self._imageWithPackageLowDOWN
+            elif self.direction == 'left':
+                image = self._imageWithPackageLowLEFT
         else:
-            image = self.imageWithNoPackage
+            if self.direction == 'up':
+                image = self._imageWithNoPackageUP
+            elif self.direction == 'right':
+                image = self._imageWithNoPackageRIGHT
+            elif self.direction == 'down':
+                image = self._imageWithNoPackageDOWN
+            elif self.direction == 'left':
+                image = self._imageWithNoPackageLEFT
 
-
-        if self.direction == 'left':
-            image = rot_center(image, 90)
-        elif self.direction == 'right':
-            image = rot_center(image, 270)
-        elif self.direction == 'down':
-            image = rot_center(image, 180)
-
-        display.blit(image, (self.rect.x, self.rect.y))
+        display.blit(image, (self._rect.x, self._rect.y))

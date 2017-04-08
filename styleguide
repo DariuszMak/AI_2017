@@ -1,0 +1,5 @@
+używamy 4 spacji a nie tabów
+"publiczne" metody i atrybuty bez podkreślników na początku
+"prywatne" metody i atrybuty z podkreślnikiem na początku
+unikamy rzeczy zależnych od systemu operacyjnego, np.
+zamiast image/forklift.png (nie działa na WIN) używamy sys.path.append

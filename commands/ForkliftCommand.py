@@ -5,24 +5,20 @@ logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s- %
 logging.debug('Start of program')
 
 def forkliftCommand(forklift, grid):
-
     # random_number = random.random()
     # if random_number < 0.01:
-    #     forklift.moveUp()
+    #     forklift.moveForward(grid)
     # elif random_number < 0.02:
-    #     forklift.moveDown()
+    #     forklift.moveBackward(grid)
     # elif random_number < 0.03:
-    #     forklift.moveLeft()
+    #     forklift.turnLeft(grid)
     # elif random_number < 0.04:
-    #     forklift.moveRight()
+    #     forklift.turnRight(grid)
+    printLog(forklift, grid)
 
+def printLog(forklift, grid):
     if len(str(forklift.x)) == 1:
         info = 'x = ' + str(forklift.x) + '\t\ty = ' + str(forklift.y)
     else:
         info = 'x = ' + str(forklift.x) + '\ty = ' + str(forklift.y)
     logging.debug(info)
-
-
-
-def update(forklift):
-    pass

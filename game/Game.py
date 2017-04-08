@@ -1,6 +1,5 @@
 import pygame
 import os
-# import AI_2017
 from commands.ForkliftCommand import forkliftCommand
 from commands.Grid import Grid
 from .Forklift import Forklift
@@ -51,9 +50,9 @@ def game_loop(gameDisplay, clock, grid, forklift):
                             ForkliftMovedBackwardIntoPackage):
                         pass
 
-        forkliftCommand(forklift, grid)
 
         gameDisplay.fill(WHITE)
+        forkliftCommand(forklift, grid)
 
 
         for i in range(0, GAME_DISPLAY_WIDTH + GRID_DISTANCE, GRID_DISTANCE):
@@ -62,12 +61,12 @@ def game_loop(gameDisplay, clock, grid, forklift):
         for i in range(0, GAME_DISPLAY_HEIGHT + GRID_DISTANCE, GRID_DISTANCE):
             pygame.draw.line(gameDisplay, BLACK, [0, i], [GAME_DISPLAY_WIDTH,i], 1)
 
-        forklift.display(gameDisplay, grid)
+        forklift._display(gameDisplay, grid)
         for i in range(len(grid.grid)):
             for j in range(len(grid.grid[0])):
                 try:
                     if not (i == forklift.x and j == forklift.y):
-                        grid.grid[i][j].display(gameDisplay, i, j)
+                        grid.grid[i][j]._display(gameDisplay, i, j)
                 except AttributeError:
                     pass
 
