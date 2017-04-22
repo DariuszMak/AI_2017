@@ -1,8 +1,10 @@
 import random
 import logging
 
-logging.basicConfig(level=logging.DEBUG, format=' %(asctime)s - %(levelname)s- %(message)s')
+logging.basicConfig(level=logging.DEBUG,
+                    format=' %(asctime)s - %(levelname)s- %(message)s')
 logging.debug('Start of program')
+
 
 def forkliftCommand(forklift, grid):
     # random_number = random.random()
@@ -15,6 +17,7 @@ def forkliftCommand(forklift, grid):
     # elif random_number < 0.04:
     #     forklift.turnRight(grid)
     printLog(forklift, grid)
+
 
 def printLog(forklift, grid):
     if len(str(forklift.x)) == 1:

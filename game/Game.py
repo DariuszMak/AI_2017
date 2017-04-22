@@ -50,16 +50,16 @@ def game_loop(gameDisplay, clock, grid, forklift):
                             ForkliftMovedBackwardIntoPackage):
                         pass
 
-
         gameDisplay.fill(WHITE)
         forkliftCommand(forklift, grid)
 
-
         for i in range(0, GAME_DISPLAY_WIDTH + GRID_DISTANCE, GRID_DISTANCE):
-            pygame.draw.line(gameDisplay, BLACK, [i, 0], [i,GAME_DISPLAY_HEIGHT], 1)
+            pygame.draw.line(gameDisplay, BLACK, [i, 0], [
+                             i, GAME_DISPLAY_HEIGHT], 1)
 
         for i in range(0, GAME_DISPLAY_HEIGHT + GRID_DISTANCE, GRID_DISTANCE):
-            pygame.draw.line(gameDisplay, BLACK, [0, i], [GAME_DISPLAY_WIDTH,i], 1)
+            pygame.draw.line(gameDisplay, BLACK, [0, i], [
+                             GAME_DISPLAY_WIDTH, i], 1)
 
         forklift._display(gameDisplay, grid)
         for i in range(len(grid.grid)):
@@ -70,20 +70,21 @@ def game_loop(gameDisplay, clock, grid, forklift):
                 except AttributeError:
                     pass
 
-
         pygame.display.update()
         clock.tick(TICK)
+
 
 def run():
 
     pygame.init()
-    gameDisplay = pygame.display.set_mode((GAME_DISPLAY_WIDTH + MENU_WIDTH, GAME_DISPLAY_HEIGHT ))
+    gameDisplay = pygame.display.set_mode(
+        (GAME_DISPLAY_WIDTH + MENU_WIDTH, GAME_DISPLAY_HEIGHT))
     pygame.display.set_caption(CAPTION)
     clock = pygame.time.Clock()
 
     forklift = Forklift(6, 6)
     package = Package()
-    grid = Grid(GAME_DISPLAY_WIDTH , GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
+    grid = Grid(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
     grid.grid[8][8] = package
     grid.grid[2][5] = package
     grid.grid[0][0] = package
@@ -92,5 +93,6 @@ def run():
 
     pygame.quit()
     quit()
+
 
 run()
