@@ -93,6 +93,10 @@ def run():
     grid = Grid(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
     grid.grid[8][8] = Package(False, False, False, False, True, 'short')
     grid.grid[2][5] = Package(False, False, False, True, False, None)
+    grid.grid[2][2] = Package(True, False, False, False, False, None)
+    grid.grid[2][9] = Package(True, True, False, False, False, None)
+    grid.grid[3][1] = Package(False, False, True, False, False, None)
+    grid.grid[7][7] = Package(False, False, False, False, False, None)
     grid.grid[0][0] = Package(False, False, True, False, False, None)
 
     game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox)
