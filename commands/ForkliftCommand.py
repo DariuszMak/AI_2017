@@ -8,16 +8,6 @@ logging.debug('Start of program')
 
 
 def forkliftCommand(forklift, grid):
-    # random_number = random.random()
-    # if random_number < 0.01:
-    #     forklift.moveForward(grid)
-    # elif random_number < 0.02:
-    #     forklift.moveBackward(grid)
-    # elif random_number < 0.03:
-    #     forklift.turnLeft(grid)
-    # elif random_number < 0.04:
-    #     forklift.turnRight(grid)
-
     printLog(forklift, grid)
     printPossibleActions(forklift, grid)
 

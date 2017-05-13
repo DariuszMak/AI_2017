@@ -5,10 +5,11 @@ from commands.Grid import Grid
 from .Forklift import Forklift
 from .ForkliftExceptions import *
 from .Package import Package
+from .PackageInfoBox import PackageInfoBox
 from .display_settings import *
 
 
-def game_loop(gameDisplay, clock, grid, forklift):
+def game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox):
     gameExit = False
     while not gameExit:
 
@@ -69,7 +70,9 @@ def game_loop(gameDisplay, clock, grid, forklift):
                         grid.grid[i][j]._display(gameDisplay, i, j)
                 except AttributeError:
                     pass
-
+        
+        label = font.render("Some text!", 1, (255,255,0))
+        packageInfoBox._display(gameDisplay)
         pygame.display.update()
         clock.tick(TICK)
 
@@ -77,19 +80,22 @@ def game_loop(gameDisplay, clock, grid, forklift):
 def run():
 
     pygame.init()
+    font = pygame.font.SysFont("monospace", 15)
+    font=pygame.font.Font(None,30)
+
     gameDisplay = pygame.display.set_mode(
         (GAME_DISPLAY_WIDTH + MENU_WIDTH, GAME_DISPLAY_HEIGHT))
     pygame.display.set_caption(CAPTION)
     clock = pygame.time.Clock()
 
     forklift = Forklift(6, 6)
-    package = Package()
+    packageInfoBox = PackageInfoBox(810, 400, font)
     grid = Grid(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
-    grid.grid[8][8] = package
-    grid.grid[2][5] = package
-    grid.grid[0][0] = package
+    grid.grid[8][8] = Package(False, False, False, False, True, 'short')
+    grid.grid[2][5] = Package(False, False, False, True, False, None)
+    grid.grid[0][0] = Package(False, False, True, False, False, None)
 
-    game_loop(gameDisplay, clock, grid, forklift)
+    game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox)
 
     pygame.quit()
     quit()
