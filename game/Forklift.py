@@ -42,29 +42,73 @@ class Forklift(pygame.sprite.Sprite):
         self._rect = self._imageWithPackageHighLEFT.get_rect()
 
 
-    def _isPositionOutOfGrid(self, GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
-        if 0 <= self.x + x_shift <= GRID_WIDTH - 1 and 0 <= self.y + y_shift <= GRID_HEIGHT - 1 :
+    def _isPositionOutOfGrid(x, y, GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
+        if 0 <= x + x_shift <= GRID_WIDTH - 1 and 0 <= y + y_shift <= GRID_HEIGHT - 1 :
             return False
         else:
             return True
 
-    def _isOnPackagePosition(self, grid):
-        if type(grid.grid[self.x][self.y]) == type(None):
+
+    def getPossibleActions(x, y, direction, carryingPackage, grid):
+        actions = list()
+        
+        if not carryingPackage and grid.grid[x][y]:
+            actions.append('liftPackage')
+        if carryingPackage:
+            actions.append('lowerPackage')
+        if type(grid.grid[x][y]) == type(None):
+            actions.append('toLeft')
+            actions.append('toRight')
+
+        if direction == 'up':
+            y_shift_forward = -1; y_shift_backward = 1
+            x_shift_forward = 0; x_shift_backward = 0
+        elif direction == 'down': 
+            y_shift_forward = 1; y_shift_backward = -1
+            x_shift_forward = 0; x_shift_backward = 0
+        elif direction == 'right': 
+            y_shift_forward = 0; y_shift_backward = 0
+            x_shift_forward = 1; x_shift_backward = -1
+        elif direction == 'left': 
+            y_shift_forward = 0; y_shift_backward = 0
+            x_shift_forward = -1; x_shift_backward = 1
+
+        try:
+            Forklift._isPossibleToChangePos(x,y, carryingPackage, grid, True, x_shift_forward, y_shift_forward)
+            actions.append('moveForward')
+        except:
+            pass
+
+        try:
+            Forklift._isPossibleToChangePos(x,y, carryingPackage, grid, False, x_shift_backward, y_shift_backward)
+            actions.append('moveBackward')
+        except:
+            pass
+
+        return actions
+
+
+    def _isOnPackagePosition(x, y, grid):
+        if type(grid.grid[x][y]) == type(None):
             return False
         else:
             return True
 
     def _changePosOrRaiseException(self, grid, isMoveForward, x_shift, y_shift):
-        if self._isPositionOutOfGrid(GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
-            raise ForkliftOutOfGridError
-        if self.carryingPackage and grid.grid[self.x + x_shift][self.y + y_shift]:
-            raise ForkliftMovingOnPackagePosAlreadyCarryingPackage
-        if self._isOnPackagePosition(grid) and isMoveForward:
-            raise ForkliftMovedForwardWithPackageOnLoweredFork
-        if grid.grid[self.x + x_shift][self.y + y_shift] and not isMoveForward:
-            raise ForkliftMovedBackwardIntoPackage
+        Forklift._isPossibleToChangePos(self.x, self.y, self.carryingPackage, grid, isMoveForward, x_shift, y_shift) # raises Exceptions
         self.x += x_shift
         self.y += y_shift
+
+    def _isPossibleToChangePos(x, y, carryingPackage, grid, isMoveForward, x_shift, y_shift):
+        if Forklift._isPositionOutOfGrid(x, y, GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
+            raise ForkliftOutOfGridError
+        if carryingPackage and grid.grid[x + x_shift][y + y_shift]:
+            raise ForkliftMovingOnPackagePosAlreadyCarryingPackage
+        if Forklift._isOnPackagePosition(x, y, grid) and isMoveForward:
+            raise ForkliftMovedForwardWithPackageOnLoweredFork
+        if grid.grid[x + x_shift][y + y_shift] and not isMoveForward:
+            raise ForkliftMovedBackwardIntoPackage
+        return True
 
     def liftPackage(self, grid):
         if self.carryingPackage:
@@ -105,12 +149,12 @@ class Forklift(pygame.sprite.Sprite):
             self._changePosOrRaiseException(grid, False, -1, 0)
 
     def turnRight(self, grid):
-        if self._isOnPackagePosition(grid):
+        if Forklift._isOnPackagePosition(self.x, self.y, grid):
             raise ForkliftTurningWithLoweredPackage
         self.direction = Forklift.toRight[self.direction]
 
     def turnLeft(self, grid):
-        if self._isOnPackagePosition(grid):
+        if Forklift._isOnPackagePosition(self.x, self.y, grid):
             raise ForkliftTurningWithLoweredPackage
         self.direction = Forklift.toLeft[self.direction]
 
@@ -128,7 +172,7 @@ class Forklift(pygame.sprite.Sprite):
                 image = self._imageWithPackageHighDOWN
             elif self.direction == 'left':
                 image = self._imageWithPackageHighLEFT
-        elif self._isOnPackagePosition(grid):
+        elif Forklift._isOnPackagePosition(self.x, self.y, grid):
             if self.direction == 'up':
                 image = self._imageWithPackageLowUP
             elif self.direction == 'right':
