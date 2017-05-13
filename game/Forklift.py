@@ -48,6 +48,33 @@ class Forklift(pygame.sprite.Sprite):
         else:
             return True
 
+
+    def getPossibleActions(x, y, direction, carryingPackage, grid):
+        actions = list()
+        
+        if not carryingPackage and grid.grid[x][y]:
+            actions.append('liftPackage')
+        if carryingPackage:
+            actions.append('lowerPackage')
+        if type(grid.grid[x][y]) == type(None):
+            actions.append('toLeft')
+            actions.append('toRight')
+
+        
+        #  if self._isPositionOutOfGrid(GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
+        #      raise ForkliftOutOfGridError
+        #  if self.carryingPackage and grid.grid[self.x + x_shift][self.y + y_shift]:
+        #      raise ForkliftMovingOnPackagePosAlreadyCarryingPackage
+        #  if self._isOnPackagePosition(grid) and isMoveForward:
+        #      raise ForkliftMovedForwardWithPackageOnLoweredFork
+        #  if grid.grid[self.x + x_shift][self.y + y_shift] and not isMoveForward:
+        #      raise ForkliftMovedBackwardIntoPackage
+
+
+        return actions
+            
+
+
     def _isOnPackagePosition(self, grid):
         if type(grid.grid[self.x][self.y]) == type(None):
             return False
@@ -55,6 +82,11 @@ class Forklift(pygame.sprite.Sprite):
             return True
 
     def _changePosOrRaiseException(self, grid, isMoveForward, x_shift, y_shift):
+        self._isPossibleToChangePos(grid, isMoveForward, x_shift, y_shift) # raises Exceptions
+        self.x += x_shift
+        self.y += y_shift
+
+    def _isPossibleToChangePos(self, grid, isMoveForward, x_shift, y_shift):
         if self._isPositionOutOfGrid(GRID_WIDTH, GRID_HEIGHT, x_shift, y_shift):
             raise ForkliftOutOfGridError
         if self.carryingPackage and grid.grid[self.x + x_shift][self.y + y_shift]:
@@ -63,8 +95,7 @@ class Forklift(pygame.sprite.Sprite):
             raise ForkliftMovedForwardWithPackageOnLoweredFork
         if grid.grid[self.x + x_shift][self.y + y_shift] and not isMoveForward:
             raise ForkliftMovedBackwardIntoPackage
-        self.x += x_shift
-        self.y += y_shift
+        return True
 
     def liftPackage(self, grid):
         if self.carryingPackage:
