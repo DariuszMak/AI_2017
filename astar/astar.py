@@ -1,6 +1,5 @@
 import heapq
 
-
 class Cell(object):
     def __init__(self, x, y, reachable):
         """Initialize new cell.
@@ -26,9 +25,6 @@ class Cell(object):
             return self.h <= other.h
         return NotImplemented
 
-
-
-
 class AStar(object):
     def __init__(self):
         # open list
@@ -38,12 +34,22 @@ class AStar(object):
         self.closed = set()
         # grid cells
         self.cells = []
-        self.grid_height = 6
-        self.grid_width = 6
+        self.grid_height = None
+        self.grid_width = None
+        self.start = None
+        self.end = None
 
-    def init_grid(self):
-        print('Init')
-        walls = ((0, 5), (1, 0), (1, 1), (1, 5), (2, 3),(3, 1), (3, 2), (3, 5), (4, 1), (4, 4), (5, 1))
+    def init_grid(self, width, height, walls, start, end):
+        """Prepare grid cells, walls.
+
+        @param width grid's width.
+        @param height grid's height.
+        @param walls list of wall x,y tuples.
+        @param start grid starting point x,y tuple.
+        @param end grid ending point x,y tuple.
+        """
+        self.grid_height = height
+        self.grid_width = width
         for x in range(self.grid_width):
             for y in range(self.grid_height):
                 if (x, y) in walls:
@@ -51,8 +57,8 @@ class AStar(object):
                 else:
                     reachable = True
                 self.cells.append(Cell(x, y, reachable))
-        self.start = self.get_cell(0, 0)
-        self.end = self.get_cell(5, 5)
+        self.start = self.get_cell(*start)
+        self.end = self.get_cell(*end)
 
 
     def get_heuristic(self, cell):
@@ -144,7 +150,9 @@ class AStar(object):
                         # add adj cell to open list
                         heapq.heappush(self.opened, (adj_cell.f, adj_cell))
 
-
 astar = AStar()
-astar.init_grid()
+
+walls = ((0, 5), (1, 0), (1, 1), (1, 5), (2, 3),(3, 1), (3, 2), (3, 5), (4, 1), (4, 4), (5, 1))
+
+astar.init_grid(6, 6, walls, (0,0), (5,5))
 print(astar.solve())
