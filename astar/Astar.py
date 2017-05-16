@@ -101,9 +101,12 @@ class AStar(object):
     def get_path(self):
         cell = self.end
         path = [(cell.x, cell.y)]
-        while cell.parent is not self.start:
-            cell = cell.parent
-            path.append((cell.x, cell.y))
+        if cell.parent is not None:
+            while cell.parent is not self.start:
+                cell = cell.parent
+                path.append((cell.x, cell.y))
+        else:
+            return path
 
         path.append((self.start.x, self.start.y))
         path.reverse()
@@ -149,10 +152,3 @@ class AStar(object):
                         self.update_cell(adj_cell, cell)
                         # add adj cell to open list
                         heapq.heappush(self.opened, (adj_cell.f, adj_cell))
-
-astar = AStar()
-
-walls = ((0, 5), (1, 0), (1, 1), (1, 5), (2, 3),(3, 1), (3, 2), (3, 5), (4, 1), (4, 4), (5, 1))
-
-astar.init_grid(6, 6, walls, (0,0), (5,5))
-print(astar.solve())

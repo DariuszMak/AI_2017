@@ -1,4 +1,6 @@
 import random
+from game.Package import Package
+from astar.Astar import AStar
 import logging
 from game.Forklift import Forklift
 
@@ -6,8 +8,9 @@ logging.basicConfig(level=logging.DEBUG,
                     format=' %(asctime)s - %(levelname)s- %(message)s')
 logging.debug('Start of program')
 
-
 def forkliftCommand(forklift, grid):
+    #forklift.turnLeft(grid)
+    print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
     printLog(forklift, grid)
     printPossibleActions(forklift, grid)
 
@@ -33,3 +36,22 @@ def printPossibleActions(forklift, grid):
             forklift.direction,
             forklift.carryingPackage, grid))
     logging.debug(info)
+
+def get_walls(grid):
+    walls = []
+    counter_rows = 0
+    for i in grid.grid:
+        counter_columns = 0
+        for j in i:
+            #print(counter_rows, counter_columns, j)
+            if isinstance(j, Package):
+                walls.append((counter_rows, counter_columns))
+            counter_columns += 1
+        counter_rows += 1
+    return walls
+
+def getAstarPath(grid, start, end):
+    astar = AStar()
+    walls = get_walls(grid)
+    astar.init_grid(grid._HEIGHT, grid._WIDTH, walls, start, end)
+    return astar.solve()
