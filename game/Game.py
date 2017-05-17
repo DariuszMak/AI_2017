@@ -1,6 +1,6 @@
 import pygame
 import os
-from commands.ForkliftCommand import forkliftCommand, addNewMove
+from commands.ForkliftCommand import *
 from commands.Grid import Grid
 from .Forklift import Forklift
 from .ForkliftExceptions import *
@@ -100,9 +100,36 @@ def run():
     grid.grid[7][7] = Package(False, False, False, False, False, None)
     grid.grid[0][0] = Package(False, False, True, False, False, None)
 
+    addNewMove(None, (2, 1))
     addNewMove(None, (15, 8))
     addNewMove(grid.grid[0][0], (14, 13))
     addNewMove(None, (0, 0))
+
+    if len(objectList) != 0:
+        print('There is something')
+        print(objectList)
+        coordinateList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
+
+
+
+        print(coordinateList)
+
+        for step in range(len(coordinateList[0]) - 1):
+            first = coordinateList[0][step]
+            second = coordinateList[0][step + 1]
+            print(coordinateList[0][step], coordinateList[0][step + 1])
+            if(first[0] == second[0]):
+                if first[1] > second[1]:
+                    moveList.append('up')
+                else:
+                    moveList.append('down')
+            else:
+                if(first[0] > second[0]):
+                    moveList.append('left')
+                else:
+                    moveList.append('right')
+        print(moveList)
+
 
 
     game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox)
