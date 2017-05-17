@@ -20,6 +20,75 @@ moveList = []
 def singleMove(forklift,grid):
     print(coordinateList)
     print(moveList)
+    print(forklift.direction)
+    print(Forklift.getPossibleActions(
+            forklift.x, forklift.y,
+            forklift.direction,
+            forklift.carryingPackage, grid))
+    if moveList:
+        random_number = random.randint(0, 1)
+
+        if moveList[0] == 'up':
+            if forklift.direction == 'up':
+                forklift.moveForward(grid)
+                moveList.pop(0)
+            else:
+                if forklift.direction == 'left':
+                    forklift.turnRight(grid)
+                elif forklift.direction == 'right':
+                    forklift.turnLeft(grid)
+                else:
+                    if random_number:
+                        forklift.turnRight(grid)
+                    else:
+                        forklift.turnLeft(grid)
+
+        elif moveList[0] == 'down':
+            if forklift.direction == 'down':
+                forklift.moveForward(grid)
+                moveList.pop(0)
+            else:
+                if forklift.direction == 'right':
+                    forklift.turnRight(grid)
+                elif forklift.direction == 'left':
+                    forklift.turnLeft(grid)
+                else:
+                    if random_number:
+                        forklift.turnRight(grid)
+                    else:
+                        forklift.turnLeft(grid)
+
+        elif moveList[0] == 'left':
+            if forklift.direction == 'left':
+                forklift.moveForward(grid)
+                moveList.pop(0)
+            else:
+                if forklift.direction == 'down':
+                    forklift.turnRight(grid)
+                elif forklift.direction == 'up':
+                    forklift.turnLeft(grid)
+                else:
+                    if random_number:
+                        forklift.turnRight(grid)
+                    else:
+                        forklift.turnLeft(grid)
+
+        elif moveList[0] == 'right':
+            if forklift.direction == 'right':
+                forklift.moveForward(grid)
+                moveList.pop(0)
+            else:
+                if forklift.direction == 'up':
+                    forklift.turnRight(grid)
+                elif forklift.direction == 'down':
+                    forklift.turnLeft(grid)
+                else:
+                    if random_number:
+                        forklift.turnRight(grid)
+                    else:
+                        forklift.turnLeft(grid)
+
+
         # print(moveList)
         #
         # if moveList:

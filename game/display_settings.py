@@ -1,6 +1,6 @@
 CAPTION = 'AI classes project'
 
-TICK = 60
+TICK = 3
 
 GAME_DISPLAY_WIDTH = 800
 GAME_DISPLAY_HEIGHT = 600
