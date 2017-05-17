@@ -30,6 +30,7 @@ class PackageInfoBox(pygame.sprite.Sprite):
             return
 
         infoLabel = self.font.render(self.info, 1, (0,0,0),) 
+        idLabel = self.font.render("id: " + str(package.id), 1, (0,0,0),) 
         flammableLabel = self.font.render("flammable: " + str(package.flammable), 1, (0,0,0),) 
         explosiveLabel = self.font.render("explosive: " + str(package.explosive), 1, (0,0,0),) 
         radiocativeLabel = self.font.render("radioactive: " + str(package.radioactive), 1, (0,0,0),) 
@@ -40,10 +41,11 @@ class PackageInfoBox(pygame.sprite.Sprite):
         else:
             expiryDateLabel = self.font.render("expiry: " + "not apply",  1, (0,0,0),) 
 
-        gameDisplay.blit(infoLabel,(self.x,self.y))
-        gameDisplay.blit(flammableLabel,(self.x,self.y + self.shift))
-        gameDisplay.blit(explosiveLabel,(self.x,self.y+ 2*self.shift))
-        gameDisplay.blit(radiocativeLabel,(self.x,self.y+ 3*self.shift))
-        gameDisplay.blit(medicalLabel,(self.x,self.y+ 4*self.shift))
-        gameDisplay.blit(FoodLabel,(self.x,self.y+ 5*self.shift))
-        gameDisplay.blit(expiryDateLabel,(self.x,self.y+ 6*self.shift))
+        gameDisplay.blit(infoLabel,(self.x,self.y + 0*self.shift))
+        gameDisplay.blit(idLabel,(self.x,self.y+ 1*self.shift))
+        gameDisplay.blit(flammableLabel,(self.x,self.y + 2*self.shift))
+        gameDisplay.blit(explosiveLabel,(self.x,self.y+ 3*self.shift))
+        gameDisplay.blit(radiocativeLabel,(self.x,self.y+ 4*self.shift))
+        gameDisplay.blit(medicalLabel,(self.x,self.y+ 5*self.shift))
+        gameDisplay.blit(FoodLabel,(self.x,self.y+ 6*self.shift))
+        gameDisplay.blit(expiryDateLabel,(self.x,self.y+ 7*self.shift))

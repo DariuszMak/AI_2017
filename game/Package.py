@@ -4,6 +4,7 @@ from .display_settings import *
 
 class Package(pygame.sprite.Sprite):
 
+    _nextId = 0
 
     def assertIfInvalidConfiguration(food, expiry):
         assert (food and expiry in ['short', 'medium', 'long']) or (not food and expiry in [None])
@@ -15,6 +16,9 @@ class Package(pygame.sprite.Sprite):
 
         pygame.sprite.Sprite.__init__(self)
         self._image= pygame.image.load(os.path.join('game','images','package.png'))
+
+        self.id = Package._nextId
+        Package._nextId += 1
 
         self.flammable = flammable
         self.explosive = explosive

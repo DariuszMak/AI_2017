@@ -104,7 +104,7 @@ def run():
     tick = Tick(810, 50, font)
 
     forklift = Forklift(6, 6)
-    carryingPackageInfoBox = PackageInfoBox(810, 200, "CURRENT:", font)
+    carryingPackageInfoBox = PackageInfoBox(810, 180, "CURRENT:", font)
     mousePackageInfoBox = PackageInfoBox(810, 400, "MOUSE:", font)
     grid = Grid(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
     grid.grid[8][8] = Package(False, False, False, False, True, 'short')
