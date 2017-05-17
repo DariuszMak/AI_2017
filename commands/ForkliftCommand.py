@@ -8,9 +8,33 @@ logging.basicConfig(level=logging.DEBUG,
                     format=' %(asctime)s - %(levelname)s- %(message)s')
 logging.debug('Start of program')
 
+objectList = []
+
+moveList = []
+
+carrying = False
+
+def singleMove(forklift,grid):
+    if len(objectList) != 0:
+        print ('There is something')
+        print(objectList)
+        if len(moveList) != 0:
+            print("Step: " + str(moveList[0].pop(0)))
+            print('Lenght: ' + str(len(moveList)))
+        else:
+            moveList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
+        print(objectList[0][0])
+
+
+def addNewMove(object, place):
+    objectList.append((object, place))
+
+
 def forkliftCommand(forklift, grid):
     #forklift.turnLeft(grid)
-    print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
+    #print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
+
+    singleMove(forklift, grid)
     printLog(forklift, grid)
     printPossibleActions(forklift, grid)
 
@@ -25,7 +49,6 @@ def printLog(forklift, grid):
         info = 'x = ' + str(forklift.x) + '\t\ty = ' + str(forklift.y) + '\t' + forklift.direction + carryingInfo
     else:
         info = 'x = ' + str(forklift.x) + '\ty = ' + str(forklift.y) + '\t' + forklift.direction + carryingInfo
-        carryingInfo = 'carrying'
     logging.debug(info)
 
 

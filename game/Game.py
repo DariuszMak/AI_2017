@@ -1,6 +1,6 @@
 import pygame
 import os
-from commands.ForkliftCommand import forkliftCommand
+from commands.ForkliftCommand import forkliftCommand, addNewMove
 from commands.Grid import Grid
 from .Forklift import Forklift
 from .ForkliftExceptions import *
@@ -63,6 +63,7 @@ def game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox):
                              GAME_DISPLAY_WIDTH, i], 1)
 
         forklift._display(gameDisplay, grid)
+
         for i in range(len(grid.grid)):
             for j in range(len(grid.grid[0])):
                 try:
@@ -98,6 +99,11 @@ def run():
     grid.grid[3][1] = Package(False, False, True, False, False, None)
     grid.grid[7][7] = Package(False, False, False, False, False, None)
     grid.grid[0][0] = Package(False, False, True, False, False, None)
+
+    addNewMove(None, (15, 8))
+    addNewMove(grid.grid[0][0], (14, 13))
+    addNewMove(None, (0, 0))
+
 
     game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox)
 
