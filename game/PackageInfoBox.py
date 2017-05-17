@@ -5,12 +5,13 @@ import game.Package
 
 class PackageInfoBox(pygame.sprite.Sprite):
 
-    def __init__(self, x, y, font):
+    def __init__(self, x, y, info, font):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.font = font
         self.shift = 25
+        self.info = info
 
         #  self.flammable = False
         #  self.explosive = False
@@ -20,15 +21,15 @@ class PackageInfoBox(pygame.sprite.Sprite):
         #  self.food = False
         #
 
-    def _display(self, package, info, gameDisplay):
+    def _display(self, package, gameDisplay):
 
 
         if type(package) == type(None):
-            infoLabel = self.font.render(info, 1, (0,0,0),) 
+            infoLabel = self.font.render(self.info, 1, (0,0,0),) 
             gameDisplay.blit(infoLabel,(self.x,self.y))
             return
 
-        infoLabel = self.font.render(info, 1, (0,0,0),) 
+        infoLabel = self.font.render(self.info, 1, (0,0,0),) 
         flammableLabel = self.font.render("flammable: " + str(package.flammable), 1, (0,0,0),) 
         explosiveLabel = self.font.render("explosive: " + str(package.explosive), 1, (0,0,0),) 
         radiocativeLabel = self.font.render("radioactive: " + str(package.radioactive), 1, (0,0,0),) 
