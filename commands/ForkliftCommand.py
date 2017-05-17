@@ -18,9 +18,12 @@ def singleMove(forklift,grid):
     if len(objectList) != 0:
         print ('There is something')
         print(objectList)
-        if len(moveList) != 0:
-            print("Step: " + str(moveList[0].pop(0)))
-            print('Lenght: ' + str(len(moveList)))
+        print(moveList)
+
+        if moveList:
+            if moveList[0]:
+                print("Step: " + str(moveList[0].pop(0)))
+                print('Lenght: ' + str(len(moveList)))
         else:
             moveList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
         print(objectList[0][0])
