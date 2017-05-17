@@ -12,38 +12,37 @@ class PackageInfoBox(pygame.sprite.Sprite):
         self.font = font
         self.shift = 25
 
-        self.flammable = False
-        self.explosive = False
-        self.radioactive = False
-        self.medical = False
-        self.expiry = None
-        self.food = False
+        #  self.flammable = False
+        #  self.explosive = False
+        #  self.radioactive = False
+        #  self.medical = False
+        #  self.expiry = None
+        #  self.food = False
+        #
 
-    def updateInfo(self, flammable, explosive, radioactive, medical, food, expiry):
+    def _display(self, package, info, gameDisplay):
 
-        Package.assertIfInvalidConfiguration(food, expiry)
 
-        self.flammable = flammable
-        self.explosive = explosive
-        self.radioactive = radioactive
-        self.medical = medical
-        self.food = food
-        self.expiry = expiry
+        if type(package) == type(None):
+            infoLabel = self.font.render(info, 1, (0,0,0),) 
+            gameDisplay.blit(infoLabel,(self.x,self.y))
+            return
 
-    def _display(self, display):
+        infoLabel = self.font.render(info, 1, (0,0,0),) 
+        flammableLabel = self.font.render("flammable: " + str(package.flammable), 1, (0,0,0),) 
+        explosiveLabel = self.font.render("explosive: " + str(package.explosive), 1, (0,0,0),) 
+        radiocativeLabel = self.font.render("radioactive: " + str(package.radioactive), 1, (0,0,0),) 
+        medicalLabel = self.font.render("medical: " + str(package.medical), 1, (0,0,0),) 
+        FoodLabel = self.font.render("food: " + str(package.food), 1, (0,0,0),) 
+        if package.food:
+            expiryDateLabel = self.font.render("expiry: " + package.expiry, 1, (0,0,0),) 
+        else:
+            expiryDateLabel = self.font.render("expiry: " + "not apply",  1, (0,0,0),) 
 
-        infoLabel = self.font.render("PACKAGE INFO", 1, (0,0,0),) 
-        flammableLabel = self.font.render("not implemented", 1, (0,0,0),) 
-        explosiveLabel = self.font.render("not implemented", 1, (0,0,0),) 
-        radiocativeLabel = self.font.render("not implemented", 1, (0,0,0),) 
-        medicalLabel = self.font.render("not implemented", 1, (0,0,0),) 
-        FoodLabel = self.font.render("not implemented", 1, (0,0,0),) 
-        expiryDateLabel = self.font.render("not implemented", 1, (0,0,0),) 
-
-        display.blit(infoLabel,(self.x,self.y))
-        display.blit(flammableLabel,(self.x,self.y + self.shift))
-        display.blit(explosiveLabel,(self.x,self.y+ 2*self.shift))
-        display.blit(radiocativeLabel,(self.x,self.y+ 3*self.shift))
-        display.blit(medicalLabel,(self.x,self.y+ 4*self.shift))
-        display.blit(FoodLabel,(self.x,self.y+ 5*self.shift))
-        display.blit(expiryDateLabel,(self.x,self.y+ 6*self.shift))
+        gameDisplay.blit(infoLabel,(self.x,self.y))
+        gameDisplay.blit(flammableLabel,(self.x,self.y + self.shift))
+        gameDisplay.blit(explosiveLabel,(self.x,self.y+ 2*self.shift))
+        gameDisplay.blit(radiocativeLabel,(self.x,self.y+ 3*self.shift))
+        gameDisplay.blit(medicalLabel,(self.x,self.y+ 4*self.shift))
+        gameDisplay.blit(FoodLabel,(self.x,self.y+ 5*self.shift))
+        gameDisplay.blit(expiryDateLabel,(self.x,self.y+ 6*self.shift))

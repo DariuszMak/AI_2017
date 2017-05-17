@@ -9,7 +9,7 @@ from .PackageInfoBox import PackageInfoBox
 from .display_settings import *
 
 
-def game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox):
+def game_loop(gameDisplay, clock, grid, forklift, font, carryingPackageInfoBox,  mousePackageInfoBox):
     gameExit = False
     while not gameExit:
 
@@ -72,8 +72,12 @@ def game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox):
                 except AttributeError:
                     pass
         
-        label = font.render("Some text!", 1, (255,255,0))
-        packageInfoBox._display(gameDisplay)
+        mousePackageToDisplay = Package.getPackage(pygame.mouse.get_pos()[0] // GRID_DISTANCE, 
+            pygame.mouse.get_pos()[1] // GRID_DISTANCE,
+            grid)
+
+        carryingPackageInfoBox._display(forklift.carryingPackage, "CURRENT",  gameDisplay)
+        mousePackageInfoBox._display(mousePackageToDisplay, "MOUSE",  gameDisplay)
         pygame.display.update()
         clock.tick(TICK)
 
@@ -90,7 +94,8 @@ def run():
     clock = pygame.time.Clock()
 
     forklift = Forklift(6, 6)
-    packageInfoBox = PackageInfoBox(810, 400, font)
+    carryingPackageInfoBox = PackageInfoBox(810, 200, font)
+    mousePackageInfoBox = PackageInfoBox(810, 400, font)
     grid = Grid(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
     grid.grid[8][8] = Package(False, False, False, False, True, 'short')
     grid.grid[2][5] = Package(False, False, False, True, False, None)
@@ -105,34 +110,34 @@ def run():
     addNewMove(grid.grid[0][0], (14, 13))
     addNewMove(None, (0, 0))
 
-    if len(objectList) != 0:
-        print('There is something')
-        print(objectList)
-        coordinateList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
+    #  if len(objectList) != 0:
+    #      print('There is something')
+    #      print(objectList)
+    #      coordinateList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
+    #
+    #
+    #
+    #      print(coordinateList)
+    #
+    #      for step in range(len(coordinateList[0]) - 1):
+    #          first = coordinateList[0][step]
+    #          second = coordinateList[0][step + 1]
+    #          print(coordinateList[0][step], coordinateList[0][step + 1])
+    #          if(first[0] == second[0]):
+    #              if first[1] > second[1]:
+    #                  moveList.append('up')
+    #              else:
+    #                  moveList.append('down')
+    #          else:
+    #              if(first[0] > second[0]):
+    #                  moveList.append('left')
+    #              else:
+    #                  moveList.append('right')
+    #      print(moveList)
 
 
 
-        print(coordinateList)
-
-        for step in range(len(coordinateList[0]) - 1):
-            first = coordinateList[0][step]
-            second = coordinateList[0][step + 1]
-            print(coordinateList[0][step], coordinateList[0][step + 1])
-            if(first[0] == second[0]):
-                if first[1] > second[1]:
-                    moveList.append('up')
-                else:
-                    moveList.append('down')
-            else:
-                if(first[0] > second[0]):
-                    moveList.append('left')
-                else:
-                    moveList.append('right')
-        print(moveList)
-
-
-
-    game_loop(gameDisplay, clock, grid, forklift, font, packageInfoBox)
+    game_loop(gameDisplay, clock, grid, forklift, font, carryingPackageInfoBox,  mousePackageInfoBox)
 
     pygame.quit()
     quit()

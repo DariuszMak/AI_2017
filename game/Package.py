@@ -26,3 +26,10 @@ class Package(pygame.sprite.Sprite):
 
     def _display(self, display, xpos, ypos):
         display.blit(self._image, (xpos * GRID_DISTANCE, ypos * GRID_DISTANCE))
+
+
+    def getPackage(posx,posy, grid):
+        try:
+            return grid.grid[posx][posy]
+        except IndexError:
+            return None 
