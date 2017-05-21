@@ -147,6 +147,7 @@ def run():
 
 
 
+    forkliftCommandInit(forklift, grid)
     game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox,  mousePackageInfoBox)
 
     pygame.quit()

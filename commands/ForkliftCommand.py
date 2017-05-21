@@ -104,6 +104,11 @@ def addNewMove(object, place):
     objectList.append((object, place))
 
 
+def forkliftCommandInit(forklift,grid):
+    print('Here is forklift command init')
+    pass
+
+
 def forkliftCommand(forklift, grid):
     #forklift.turnLeft(grid)
     #print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
