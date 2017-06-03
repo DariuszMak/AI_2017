@@ -1,4 +1,5 @@
 from __future__ import print_function
+from IPython.display import Image
 
 import os
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
@@ -26,7 +27,7 @@ def get_iris_data():
         print('Something went wrong...')
     return df
 
-def visualize_tree(tree, feature_names):
+def visualize_tree(tree, feature_names, target_names):
     """Create tree png using graphviz.
 
     Args
@@ -38,10 +39,15 @@ def visualize_tree(tree, feature_names):
     export_graphviz(tree, out_file=f,
                         feature_names=feature_names)
     f.close()
-    dot_data = export_graphviz(tree, out_file=None)
+    dot_data = export_graphviz(tree, out_file=None,
+                                    feature_names=feature_names,
+                                    class_names=target_names,
+                                    filled=True, rounded=True,
+                                    special_characters=True)
     graph = pydotplus.graph_from_dot_data(dot_data)
     graph.write_pdf("iris.pdf")
-    command = ["dot", "-Tpng", "dt.dot", "-o", "dt.png"]
+    # Image(graph.create_png())
+    # command = ["dot", "-Tpng", "dt.dot", "-o", "dt.png"]
     # subprocess.check_call(command)
 
 def encode_target(df, target_column):
@@ -72,7 +78,6 @@ print("* df.head()", df.head(), sep="\n", end="\n\n")
 print("* df.tail()", df.tail(), sep="\n", end="\n\n")
 print("* iris types:", df["Name"].unique(), sep="\n")
 
-
 df2, targets = encode_target(df, "Name")
 print("* df2.head()", df2[["Target", "Name"]].head(), sep="\n", end="\n\n")
 print("* df2.tail()", df2[["Target", "Name"]].tail(), sep="\n", end="\n\n")
@@ -87,4 +92,4 @@ dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
 
 dt.fit(X,y)
 
-visualize_tree(dt, features)
+visualize_tree(dt, features, targets)
