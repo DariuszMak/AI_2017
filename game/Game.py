@@ -10,7 +10,7 @@ from .display_settings import *
 from .Tick import Tick
 
 
-def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox,  mousePackageInfoBox):
+def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox):
     gameExit = False
     while not gameExit:
 
@@ -52,7 +52,7 @@ def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInf
                             ForkliftMovedBackwardIntoPackage):
                         pass
                 if event.key == pygame.K_RIGHTBRACKET:
-                        tick.increase()
+                    tick.increase()
                 if event.key == pygame.K_LEFTBRACKET:
                     try:
                         tick.decrease()
@@ -64,11 +64,11 @@ def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInf
 
         for i in range(0, GAME_DISPLAY_WIDTH + GRID_DISTANCE, GRID_DISTANCE):
             pygame.draw.line(gameDisplay, BLACK, [i, 0], [
-                             i, GAME_DISPLAY_HEIGHT], 1)
+                i, GAME_DISPLAY_HEIGHT], 1)
 
         for i in range(0, GAME_DISPLAY_HEIGHT + GRID_DISTANCE, GRID_DISTANCE):
             pygame.draw.line(gameDisplay, BLACK, [0, i], [
-                             GAME_DISPLAY_WIDTH, i], 1)
+                GAME_DISPLAY_WIDTH, i], 1)
 
         forklift._display(gameDisplay, grid)
 
@@ -79,23 +79,22 @@ def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInf
                         grid.grid[i][j]._display(gameDisplay, i, j)
                 except AttributeError:
                     pass
-        
-        mousePackageToDisplay = Package.getPackage(pygame.mouse.get_pos()[0] // GRID_DISTANCE, 
-            pygame.mouse.get_pos()[1] // GRID_DISTANCE,
-            grid)
 
-        carryingPackageInfoBox._display(forklift.carryingPackage,  gameDisplay)
-        mousePackageInfoBox._display(mousePackageToDisplay,  gameDisplay)
+        mousePackageToDisplay = Package.getPackage(pygame.mouse.get_pos()[0] // GRID_DISTANCE,
+                                                   pygame.mouse.get_pos()[1] // GRID_DISTANCE,
+                                                   grid)
+
+        carryingPackageInfoBox._display(forklift.carryingPackage, gameDisplay)
+        mousePackageInfoBox._display(mousePackageToDisplay, gameDisplay)
         tick._display(gameDisplay)
         pygame.display.update()
         clock.tick(tick.tick)
 
 
 def run():
-
     pygame.init()
     font = pygame.font.SysFont("monospace", 15)
-    font=pygame.font.Font(None,30)
+    font = pygame.font.Font(None, 30)
 
     gameDisplay = pygame.display.set_mode(
         (GAME_DISPLAY_WIDTH + MENU_WIDTH, GAME_DISPLAY_HEIGHT))
@@ -125,30 +124,26 @@ def run():
         print(objectList)
         coordinateList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
 
-
-
         print(coordinateList)
 
         for step in range(len(coordinateList[0]) - 1):
             first = coordinateList[0][step]
             second = coordinateList[0][step + 1]
             print(coordinateList[0][step], coordinateList[0][step + 1])
-            if(first[0] == second[0]):
+            if (first[0] == second[0]):
                 if first[1] > second[1]:
                     moveList.append('up')
                 else:
                     moveList.append('down')
             else:
-                if(first[0] > second[0]):
+                if (first[0] > second[0]):
                     moveList.append('left')
                 else:
                     moveList.append('right')
         print(moveList)
 
-
-
     forkliftCommandInit(forklift, grid)
-    game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox,  mousePackageInfoBox)
+    game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox)
 
     pygame.quit()
     quit()

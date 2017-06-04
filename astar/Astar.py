@@ -1,5 +1,6 @@
 import heapq
 
+
 class Cell(object):
     def __init__(self, x, y, reachable):
         """Initialize new cell.
@@ -24,6 +25,7 @@ class Cell(object):
         if isinstance(other, self.__class__):
             return self.h <= other.h
         return NotImplemented
+
 
 class AStar(object):
     def __init__(self):
@@ -60,7 +62,6 @@ class AStar(object):
         self.start = self.get_cell(*start)
         self.end = self.get_cell(*end)
 
-
     def get_heuristic(self, cell):
         """Compute the heuristic value H for a cell.
 
@@ -88,14 +89,14 @@ class AStar(object):
         @returns adjacent cells list.
         """
         cells = []
-        if cell.x < self.grid_width-1:
-            cells.append(self.get_cell(cell.x+1, cell.y))
+        if cell.x < self.grid_width - 1:
+            cells.append(self.get_cell(cell.x + 1, cell.y))
         if cell.y > 0:
-            cells.append(self.get_cell(cell.x, cell.y-1))
+            cells.append(self.get_cell(cell.x, cell.y - 1))
         if cell.x > 0:
-            cells.append(self.get_cell(cell.x-1, cell.y))
-        if cell.y < self.grid_height-1:
-            cells.append(self.get_cell(cell.x, cell.y+1))
+            cells.append(self.get_cell(cell.x - 1, cell.y))
+        if cell.y < self.grid_height - 1:
+            cells.append(self.get_cell(cell.x, cell.y + 1))
         return cells
 
     def get_path(self):
@@ -122,7 +123,7 @@ class AStar(object):
         adj.h = self.get_heuristic(adj)
         adj.parent = cell
         adj.f = adj.h + adj.g
-        print('Updated coordinates: ' , adj.x, adj.y)
+        print('Updated coordinates: ', adj.x, adj.y)
 
     def solve(self):
         """Solve maze, find path to ending cell.

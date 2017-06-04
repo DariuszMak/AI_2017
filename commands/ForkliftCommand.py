@@ -14,17 +14,18 @@ coordinateList = []
 
 moveList = []
 
-#carrying = False
+
+# carrying = False
 
 
-def singleMove(forklift,grid):
+def singleMove(forklift, grid):
     print(coordinateList)
     print(moveList)
     print(forklift.direction)
     print(Forklift.getPossibleActions(
-            forklift.x, forklift.y,
-            forklift.direction,
-            forklift.carryingPackage, grid))
+        forklift.x, forklift.y,
+        forklift.direction,
+        forklift.carryingPackage, grid))
     if moveList:
         random_number = random.randint(0, 1)
 
@@ -89,29 +90,29 @@ def singleMove(forklift,grid):
                         forklift.turnLeft(grid)
 
 
-        # print(moveList)
-        #
-        # if moveList:
-        #     if moveList[0]:
-        #         print("Step: " + str(moveList[0].pop(0)))
-        #         print('Lenght: ' + str(len(moveList)))
-        # else:
-        #     moveList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
-        # print(objectList[0][0])
+                        # print(moveList)
+                        #
+                        # if moveList:
+                        #     if moveList[0]:
+                        #         print("Step: " + str(moveList[0].pop(0)))
+                        #         print('Lenght: ' + str(len(moveList)))
+                        # else:
+                        #     moveList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
+                        # print(objectList[0][0])
 
 
 def addNewMove(object, place):
     objectList.append((object, place))
 
 
-def forkliftCommandInit(forklift,grid):
+def forkliftCommandInit(forklift, grid):
     print('Here is forklift command init')
     pass
 
 
 def forkliftCommand(forklift, grid):
-    #forklift.turnLeft(grid)
-    #print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
+    # forklift.turnLeft(grid)
+    # print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
 
     singleMove(forklift, grid)
     printLog(forklift, grid)
@@ -134,10 +135,11 @@ def printLog(forklift, grid):
 def printPossibleActions(forklift, grid):
     info = 'POSSIBLE ACTIONS: '
     info += str(Forklift.getPossibleActions(
-            forklift.x, forklift.y,
-            forklift.direction,
-            forklift.carryingPackage, grid))
+        forklift.x, forklift.y,
+        forklift.direction,
+        forklift.carryingPackage, grid))
     logging.debug(info)
+
 
 def get_walls(grid):
     walls = []
@@ -145,12 +147,13 @@ def get_walls(grid):
     for i in grid.grid:
         counter_columns = 0
         for j in i:
-            #print(counter_rows, counter_columns, j)
+            # print(counter_rows, counter_columns, j)
             if isinstance(j, Package):
                 walls.append((counter_rows, counter_columns))
             counter_columns += 1
         counter_rows += 1
     return walls
+
 
 def getAstarPath(grid, start, end):
     astar = AStar()

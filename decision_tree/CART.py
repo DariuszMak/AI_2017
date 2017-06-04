@@ -2,6 +2,7 @@ from __future__ import print_function
 from IPython.display import Image
 
 import os
+
 os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
 
 import pydotplus
@@ -18,6 +19,7 @@ from sklearn.tree import DecisionTreeClassifier, export_graphviz
 
 from subprocess import check_call
 
+
 def get_iris_data():
     """Get the iris data, from local csv or pandas repo."""
     if os.path.exists("iris.csv"):
@@ -26,6 +28,7 @@ def get_iris_data():
     else:
         print('Something went wrong...')
     return df
+
 
 def visualize_tree(tree, feature_names, target_names):
     """Create tree png using graphviz.
@@ -37,18 +40,19 @@ def visualize_tree(tree, feature_names, target_names):
     """
     f = open("dt.dot", 'w')
     export_graphviz(tree, out_file=f,
-                        feature_names=feature_names)
+                    feature_names=feature_names)
     f.close()
     dot_data = export_graphviz(tree, out_file=None,
-                                    feature_names=feature_names,
-                                    class_names=target_names,
-                                    filled=True, rounded=True,
-                                    special_characters=True)
+                               feature_names=feature_names,
+                               class_names=target_names,
+                               filled=True, rounded=True,
+                               special_characters=True)
     graph = pydotplus.graph_from_dot_data(dot_data)
     graph.write_pdf("iris.pdf")
     # Image(graph.create_png())
     # command = ["dot", "-Tpng", "dt.dot", "-o", "dt.png"]
     # subprocess.check_call(command)
+
 
 def encode_target(df, target_column):
     """Add column to df with integers for the target.
@@ -90,6 +94,6 @@ y = df2['Target']
 X = df2[features]
 dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
 
-dt.fit(X,y)
+dt.fit(X, y)
 
 visualize_tree(dt, features, targets)
