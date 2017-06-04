@@ -24,7 +24,7 @@ def get_iris_data():
     """Get the iris data, from local csv or pandas repo."""
     if os.path.exists("iris.csv"):
         print("-- iris.csv found locally")
-        df = pd.read_csv("iris.csv", index_col=0)
+        df = pd.read_csv("iris.csv", index_col=None)
     else:
         print('Something went wrong...')
     return df
@@ -87,7 +87,7 @@ print("* df2.head()", df2[["Target", "Name"]].head(), sep="\n", end="\n\n")
 print("* df2.tail()", df2[["Target", "Name"]].tail(), sep="\n", end="\n\n")
 print("* targets", targets, sep="\n", end="\n\n")
 
-features = list(df2.columns[:3])
+features = list(df2.columns[:4])
 print("* features:", features, sep="\n")
 
 y = df2['Target']
@@ -95,5 +95,11 @@ X = df2[features]
 dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
 
 dt.fit(X, y)
+# set = df2[features]
+set = [7.2,3.1,6.1,1.7]
+set = np.array(set)
+set = set.reshape(1,-1)
+predict_result = dt.predict(set)
+print(predict_result)
 
 visualize_tree(dt, features, targets)
