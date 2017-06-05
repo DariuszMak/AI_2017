@@ -111,7 +111,12 @@ set = np.array(set)
 set = set.reshape(1, -1)
 predict_result = dt.predict(set)
 print(predict_result)
+predict_result = [targets[i] for i in predict_result]
+print(predict_result)
 
 df3 = get_data('packages_test')
 
-print(dt.predict(df3))
+predict_result = dt.predict(df3)
+print(predict_result)
+predict_result = [targets[i] for i in predict_result]
+print(predict_result)
