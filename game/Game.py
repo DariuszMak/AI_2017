@@ -119,6 +119,8 @@ def run():
     addNewMove(grid.grid[0][0], (14, 13))
     addNewMove(None, (0, 0))
 
+    print(getPackageDistance(grid, grid.grid[0][0], 1, 3))
+
     if len(objectList) != 0:
         print('There is something')
         print(objectList)
