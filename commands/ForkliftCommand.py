@@ -183,7 +183,7 @@ def getPackageDistance(grid, package, x, y):
             if booleanValue:
                 boolTemp = True
 
-        if boolTemp:
+        if not boolTemp:
             return None
 
         print(packageProperties)
