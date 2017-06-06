@@ -178,6 +178,14 @@ def getPackageDistance(grid, package, x, y):
         if package.food:
             packageProperties[4] = True
 
+        boolTemp = False
+        for booleanValue in packageProperties:
+            if booleanValue:
+                boolTemp = True
+
+        if boolTemp:
+            return None
+
         print(packageProperties)
         generalList = []
         generalCounter = 0
@@ -231,7 +239,7 @@ def getPackageDistance(grid, package, x, y):
                     counter_rows += 1
                 generalList.append([generalCounter + 1] + list)
             generalCounter += 1
-        print(grid.grid[x][y])
+        # print(grid.grid[x][y])
         if grid.grid[x][y] is not None:
             return None
         return generalList
