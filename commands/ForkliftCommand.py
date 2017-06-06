@@ -164,53 +164,76 @@ def getAstarPath(grid, start, end):
 
 
 def getPackageDistance(grid, package, x, y):
-    print(grid.grid[x][y])
-    if grid.grid[x][y] is not None:
+    if isinstance(package, Package):
+        packageProperties = [False] * 5
+        print(packageProperties)
+        if package.flammable:
+            packageProperties[0] = True
+        if package.explosive:
+            packageProperties[1] = True
+        if package.radioactive:
+            packageProperties[2] = True
+        if package.medical:
+            packageProperties[3] = True
+        if package.food:
+            packageProperties[4] = True
+
+        print(packageProperties)
+        generalList = []
+        generalCounter = 0
+
+        for property in packageProperties:
+            if property:
+                list = [20 for x in range(5)]
+                print(list)
+                if generalCounter == 0:
+                    list[0] = 0
+                if generalCounter == 1:
+                    list[1] = 0
+                if generalCounter == 2:
+                    list[2] = 0
+                if generalCounter == 3:
+                    list[3] = 0
+                if generalCounter == 4:
+                    list[4] = 0
+
+                counter_rows = 0
+
+                package_x = 0
+                package_y = 0
+
+                for i in grid.grid:
+                    counter_columns = 0
+                    for j in i:
+                        if j is package:
+                            package_x = counter_rows
+                            package_y = counter_columns
+                        counter_columns += 1
+                    counter_rows += 1
+                counter_rows = 0
+                for i in grid.grid:
+                    counter_columns = 0
+                    for j in i:
+                        if isinstance(j, Package):
+                            distance = math.sqrt((x - counter_rows) ** 2 + (y - counter_columns) ** 2)
+                            if j.flammable and list[0] > distance:
+                                list[0] = distance
+                            if j.explosive and list[1] > distance:
+                                list[1] = distance
+                            if j.radioactive and list[2] > distance:
+                                list[2] = distance
+                            if j.medical and list[3] > distance:
+                                list[3] = distance
+                            if j.food and list[4] > distance:
+                                list[4] = distance
+                            print(distance)
+                        counter_columns += 1
+                    counter_rows += 1
+                generalList.append([generalCounter + 1] + list)
+            generalCounter += 1
+        print(grid.grid[x][y])
+        if grid.grid[x][y] is not None:
+            return None
+        return generalList
+    else:
         return None
-    list = [20 for x in range(5)]
-    print(list)
-    if package.flammable:
-        list[0] = 0
-    if package.explosive:
-        list[1] = 0
-    if package.radioactive:
-        list[2] = 0
-    if package.medical:
-        list[3] = 0
-    if package.food:
-        list[4] = 0
-
-    counter_rows = 0
-
-    package_x = 0
-    package_y = 0
-
-    for i in grid.grid:
-        counter_columns = 0
-        for j in i:
-            if j is package:
-                package_x = counter_rows
-                package_y = counter_columns
-            counter_columns += 1
-        counter_rows += 1
-
-    counter_rows = 0
-    for i in grid.grid:
-        counter_columns = 0
-        for j in i:
-            if isinstance(j, Package):
-                distance = math.sqrt((x - counter_rows) ** 2 + (y - counter_columns) ** 2)
-                if j.flammable and list[0] > distance:
-                    list[0] = distance
-                if j.explosive and list[1] > distance:
-                    list[1] = distance
-                if j.radioactive and list[2] > distance:
-                    list[2] = distance
-                if j.medical and list[3] > distance:
-                    list[3] = distance
-                if j.food and list[4] > distance:
-                    list[4] = distance
-                print(distance)
-            counter_columns += 1
-        counter_rows += 1
-    return list
