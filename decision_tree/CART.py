@@ -109,6 +109,7 @@ visualize_tree(dt, features, targets)
 set = [7.2, 3.1, 6.1, 1.7, 3, 3]
 set = np.array(set)
 set = set.reshape(1, -1)
+print(set)
 predict_result = dt.predict(set)
 print(predict_result)
 predict_result = [targets[i] for i in predict_result]
@@ -117,6 +118,14 @@ print(predict_result)
 df3 = get_data('packages_test')
 
 predict_result = dt.predict(df3)
+print(predict_result)
+predict_result = [targets[i] for i in predict_result]
+print(predict_result)
+
+testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627], [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
+testList = np.array(testList)
+print(testList)
+predict_result = dt.predict(testList)
 print(predict_result)
 predict_result = [targets[i] for i in predict_result]
 print(predict_result)
