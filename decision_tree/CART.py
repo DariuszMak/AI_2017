@@ -117,15 +117,30 @@ print(predict_result)
 
 df3 = get_data('packages_test')
 
-predict_result = dt.predict(df3)
+test_features = list(df3.columns[:6])
+test_results = df3[targetName]
+test_results = test_results.tolist()
+print(test_results)
+
+predict_result = dt.predict(df3[test_features])
 print(predict_result)
 predict_result = [targets[i] for i in predict_result]
 print(predict_result)
 
-testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627], [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
-testList = np.array(testList)
-print(testList)
-predict_result = dt.predict(testList)
-print(predict_result)
-predict_result = [targets[i] for i in predict_result]
-print(predict_result)
+counter = 0
+counter2 = 0
+for i in predict_result:
+    if i == test_results[counter]:
+        counter2 += 1
+    counter += 1
+
+print('Accuracy: ', counter2/counter * 100, '%')
+
+
+# testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627], [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
+# testList = np.array(testList)
+# print(testList)
+# predict_result = dt.predict(testList)
+# print(predict_result)
+# predict_result = [targets[i] for i in predict_result]
+# print(predict_result)
