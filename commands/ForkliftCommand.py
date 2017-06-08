@@ -20,7 +20,7 @@ moveList = []
 
 
 def singleMove(forklift, grid):
-    print(coordinateList)
+    # print(coordinateList)
     print(moveList)
     print(forklift.direction)
     print(Forklift.getPossibleActions(
@@ -204,7 +204,7 @@ def getPackageDistance(grid, package, x, y):
         for property in packageProperties:
             if property:
                 list = [20 for x in range(5)]
-                print(list)
+                # print(list)
                 if generalCounter == 0:
                     list[0] = 0
                 if generalCounter == 1:
@@ -245,7 +245,7 @@ def getPackageDistance(grid, package, x, y):
                                 list[3] = distance
                             if j.food and list[4] > distance:
                                 list[4] = distance
-                            print(distance)
+                            # print(distance)
                         counter_columns += 1
                     counter_rows += 1
                 generalList.append([generalCounter + 1] + list)

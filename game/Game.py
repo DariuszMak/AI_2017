@@ -146,7 +146,7 @@ def run():
     #addNewMove(grid.grid[0][0], (14, 13))
     #addNewMove(None, (0, 0))
 
-    print(getPackageDistance(grid, grid.grid[2][9], 1, 3))
+    print('getPackageDistance:', getPackageDistance(grid, grid.grid[2][9], 1, 3))
 
     # if len(objectList) != 0:
     #     print('There is something')
@@ -181,9 +181,9 @@ def run():
     for package in packages:
         random_number_x = random.randint(6, 10)
         random_number_y = random.randint(0, 9)
-        print(grid.grid[random_number_x][random_number_y])
+        print('Package from grid:', grid.grid[random_number_x][random_number_y])
         walls = get_walls(grid)
-        print(walls)
+        print('Walls first call:', walls)
         if isinstance(grid.grid[random_number_x][random_number_y], Package):
             packages.remove(package)
         else:
@@ -238,14 +238,14 @@ def run():
                         random_xc = 0
                 else:
                     random_xc += 1
-            print(target)
+            print('Target:', target)
 
     walls = get_walls(grid)
-    print(walls)
+    print('Walls second call:', walls)
 
     for i in range(len(objectList)):
-        print('There is something')
-        print(objectList)
+        print('There is something in object list:')
+        print('Object list:', objectList)
         if i == 0:
             walls.remove(objectList[i][1])
             coordinateList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[i][1], walls))
@@ -254,20 +254,19 @@ def run():
                 coordinateList.append(getAstarPath(grid, (objectList[i-1][1][0], objectList[i-1][1][1]), objectList[i][1], walls))
                 if objectList[i][1] not in walls:
                     walls.append(objectList[i][1])
-                print('Walls')
-                print(walls)
+                print('Walls, third call:', walls)
             else:
                 walls.remove(objectList[i][1])
                 coordinateList.append(getAstarPath(grid, (coordinateList[i-1][len(coordinateList[i-1])-2][0], coordinateList[i-1][len(coordinateList[i-1])-2][1]), objectList[i][1], walls))
 
-        print(coordinateList)
+        print('Coordinate list:', coordinateList)
 
         for step in range(len(coordinateList[i]) - 1):
             first = coordinateList[i][step]
             second = coordinateList[i][step + 1]
-            print(coordinateList[i][step], coordinateList[i][step + 1])
-            print(len(coordinateList[i])-1)
-            print(step)
+            print('Coordinates First, second:', first, second)
+            print('Length of coordinate list of previous step:', len(coordinateList[i])-1)
+            print('step:', step)
             if (first[0] == second[0]):
                 if first[1] > second[1]:
                    moveList.append('up')
@@ -282,8 +281,8 @@ def run():
                moveList.append('liftPackage')
             if step == len(coordinateList[i]) - 2 and i % 2 == 1:
                moveList.append('lowerPackage')
-        print(moveList)
-
+        print('Single moveList:', moveList)
+    print('Entire moveList:', moveList)
     forkliftCommandInit(forklift, grid)
     game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox)
 
