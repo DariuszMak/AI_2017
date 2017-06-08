@@ -90,6 +90,15 @@ def singleMove(forklift, grid):
                     else:
                         forklift.turnLeft(grid)
 
+        elif moveList[0] == 'liftPackage':
+            forklift.liftPackage(grid)
+            moveList.pop(0)
+
+        elif moveList[0] == 'lowerPackage':
+            forklift.lowerPackage(grid)
+            forklift.moveBackward(grid)
+            moveList.pop(0)
+
 
                         # print(moveList)
                         #
@@ -156,9 +165,11 @@ def get_walls(grid):
     return walls
 
 
-def getAstarPath(grid, start, end):
+def getAstarPath(grid, start, end, walls):
     astar = AStar()
-    walls = get_walls(grid)
+    #walls = get_walls(grid)
+    print('Walls')
+    print(walls)
     astar.init_grid(grid._HEIGHT, grid._WIDTH, walls, start, end)
     return astar.solve()
 

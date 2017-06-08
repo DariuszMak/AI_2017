@@ -10,7 +10,7 @@ class PackageInfoBox(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         self.font = font
-        self.shift = 25
+        self.shift = 16
         self.info = info
 
         #  self.flammable = False
@@ -35,6 +35,10 @@ class PackageInfoBox(pygame.sprite.Sprite):
         radiocativeLabel = self.font.render("radioactive: " + str(package.radioactive), 1, (0, 0, 0), )
         medicalLabel = self.font.render("medical: " + str(package.medical), 1, (0, 0, 0), )
         FoodLabel = self.font.render("food: " + str(package.food), 1, (0, 0, 0), )
+        WeightLabel = self.font.render("weight: " + str(package.weight), 1, (0, 0, 0), )
+        TimeLabel = self.font.render("time: " + str(package.timeOnMagazine), 1, (0, 0, 0), )
+        SizeLabel = self.font.render("size: " + str(package.size), 1, (0, 0, 0), )
+        TemperatureLabel = self.font.render("temperature: " + str(package.storageTemperature), 1, (0, 0, 0), )
         if package.food:
             expiryDateLabel = self.font.render("expiry: " + package.expiry, 1, (0, 0, 0), )
         else:
@@ -48,3 +52,7 @@ class PackageInfoBox(pygame.sprite.Sprite):
         gameDisplay.blit(medicalLabel, (self.x, self.y + 5 * self.shift))
         gameDisplay.blit(FoodLabel, (self.x, self.y + 6 * self.shift))
         gameDisplay.blit(expiryDateLabel, (self.x, self.y + 7 * self.shift))
+        gameDisplay.blit(WeightLabel, (self.x, self.y + 8 * self.shift))
+        gameDisplay.blit(TimeLabel, (self.x, self.y + 9 * self.shift))
+        gameDisplay.blit(SizeLabel, (self.x, self.y + 10 * self.shift))
+        gameDisplay.blit(TemperatureLabel, (self.x, self.y + 11 * self.shift))

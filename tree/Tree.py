@@ -1,5 +1,7 @@
 import csv
 import collections
+import os
+import joblib
 
 class DecisionTree:
 
@@ -216,3 +218,11 @@ def calculateTest(testData, decisionTree):
 
     percent = numbergood / number * 100
     return print("Skuteczność wynosi %s %%" % (percent))
+
+def createTree():
+    trainingData = loadCSV(os.path.join('tree', 'train.csv'))
+    # decisionTree = growDecisionTreeFrom(trainingData, evaluationFunction=gini)
+    decisionTree = growDecisionTreeFrom(trainingData)
+
+    filename = os.path.join('tree', 'tree.pkl')
+    joblib.dump(decisionTree, filename)
