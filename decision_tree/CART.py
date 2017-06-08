@@ -134,13 +134,13 @@ for i in predict_result:
         counter2 += 1
     counter += 1
 
-print('Accuracy: ', counter2/counter * 100, '%')
+print('Accuracy: ', counter2 / counter * 100, '%')
 
-
-# testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627], [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
-# testList = np.array(testList)
-# print(testList)
-# predict_result = dt.predict(testList)
-# print(predict_result)
-# predict_result = [targets[i] for i in predict_result]
-# print(predict_result)
+testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627],
+            [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
+testList = np.array(testList)
+print(testList)
+predict_result = dt.predict(testList)
+print(predict_result)
+predict_result = [targets[i] for i in predict_result]
+print(predict_result)
