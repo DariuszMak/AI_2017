@@ -94,6 +94,7 @@ def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInf
 
 
 def run():
+    global walls
     pygame.init()
     font = pygame.font.SysFont("monospace", 15)
     font = pygame.font.Font(None, 30)
@@ -108,13 +109,13 @@ def run():
     carryingPackageInfoBox = PackageInfoBox(810, 180, "CURRENT:", font)
     mousePackageInfoBox = PackageInfoBox(810, 400, "MOUSE:", font)
     grid = Grid(GAME_DISPLAY_WIDTH, GAME_DISPLAY_HEIGHT, GRID_DISTANCE)
-    #grid.grid[8][8] = Package(False, False, False, False, True, 'short')
-    #grid.grid[2][5] = Package(False, False, False, True, False, None)
-    #grid.grid[2][2] = Package(True, False, False, False, False, None)
+    # grid.grid[8][8] = Package(False, False, False, False, True, 'short')
+    # grid.grid[2][5] = Package(False, False, False, True, False, None)
+    # grid.grid[2][2] = Package(True, False, False, False, False, None)
     grid.grid[2][9] = Package(True, True, False, False, False, None, 8, 'big', 'little', 5)
-    #grid.grid[3][1] = Package(False, False, True, False, False, None)
-    #grid.grid[7][7] = Package(False, False, False, False, False, None)
-    #grid.grid[0][0] = Package(False, False, True, False, False, None)
+    # grid.grid[3][1] = Package(False, False, True, False, False, None)
+    # grid.grid[7][7] = Package(False, False, False, False, False, None)
+    # grid.grid[0][0] = Package(False, False, True, False, False, None)
 
     packages = []
     packages.append(Package(False, False, False, True, False, None, 8, 'big', 'little', 5))
@@ -130,7 +131,7 @@ def run():
     packages.append(Package(False, False, False, False, True, 'short', 8, 'mid', 'little', -20))
     packages.append(Package(True, False, False, False, False, None, 9, 'short', 'little', 25))
 
-    #createTree()
+    # createTree()
 
     filename = os.path.join('tree', 'tree.pkl')
 
@@ -141,10 +142,10 @@ def run():
     testData = loadCSV(os.path.join('tree', 'test.csv'))
     calculateTest(testData, decisionTree)
 
-    #addNewMove(None, (2, 1))
-    #addNewMove(None, (15, 8))
-    #addNewMove(grid.grid[0][0], (14, 13))
-    #addNewMove(None, (0, 0))
+    # addNewMove(None, (2, 1))
+    # addNewMove(None, (15, 8))
+    # addNewMove(grid.grid[0][0], (14, 13))
+    # addNewMove(None, (0, 0))
 
     print('getPackageDistance:', getPackageDistance(grid, grid.grid[2][9], 1, 3))
 
@@ -191,6 +192,7 @@ def run():
             addNewMove(None, (random_number_x, random_number_y))
             result = classify([package.weight, package.timeOnMagazine, package.size, package.storageTemperature],
                               decisionTree)
+            print('Result:', result)
             for key in result:
                 target = key
             if target == 'sectorA':
@@ -241,48 +243,11 @@ def run():
             print('Target:', target)
 
     walls = get_walls(grid)
-    print('Walls second call:', walls)
-
-    for i in range(len(objectList)):
-        print('There is something in object list:')
-        print('Object list:', objectList)
-        if i == 0:
-            walls.remove(objectList[i][1])
-            coordinateList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[i][1], walls))
-        else:
-            if i % 2 == 1:
-                coordinateList.append(getAstarPath(grid, (objectList[i-1][1][0], objectList[i-1][1][1]), objectList[i][1], walls))
-                if objectList[i][1] not in walls:
-                    walls.append(objectList[i][1])
-                print('Walls, third call:', walls)
-            else:
-                walls.remove(objectList[i][1])
-                coordinateList.append(getAstarPath(grid, (coordinateList[i-1][len(coordinateList[i-1])-2][0], coordinateList[i-1][len(coordinateList[i-1])-2][1]), objectList[i][1], walls))
-
-        print('Coordinate list:', coordinateList)
-
-        for step in range(len(coordinateList[i]) - 1):
-            first = coordinateList[i][step]
-            second = coordinateList[i][step + 1]
-            print('Coordinates First, second:', first, second)
-            print('Length of coordinate list of previous step:', len(coordinateList[i])-1)
-            print('step:', step)
-            if (first[0] == second[0]):
-                if first[1] > second[1]:
-                   moveList.append('up')
-                else:
-                   moveList.append('down')
-            else:
-               if (first[0] > second[0]):
-                   moveList.append('left')
-               else:
-                   moveList.append('right')
-            if step == len(coordinateList[i]) - 2 and i % 2 == 0:
-               moveList.append('liftPackage')
-            if step == len(coordinateList[i]) - 2 and i % 2 == 1:
-               moveList.append('lowerPackage')
-        print('Single moveList:', moveList)
-    print('Entire moveList:', moveList)
+    calculatePath(forklift, grid, walls)
+    addNewMove(None, (2, 9))
+    addNewMove(None, (1, 2))
+    # walls = get_walls(grid)
+    calculatePath(forklift, grid, walls)
     forkliftCommandInit(forklift, grid)
     game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox)
 

@@ -9,7 +9,8 @@ class Package(pygame.sprite.Sprite):
     def assertIfInvalidConfiguration(food, expiry):
         assert (food and expiry in ['short', 'medium', 'long']) or (not food and expiry in [None])
 
-    def __init__(self, flammable, explosive, radioactive, medical, food, expiry, weight, timeOnMagazine, size, storageTemperature):
+    def __init__(self, flammable, explosive, radioactive, medical, food, expiry, weight, timeOnMagazine, size,
+                 storageTemperature):
 
         Package.assertIfInvalidConfiguration(food, expiry)
 

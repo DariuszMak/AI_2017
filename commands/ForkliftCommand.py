@@ -15,6 +15,8 @@ coordinateList = []
 
 moveList = []
 
+lastForkliftPosition = None
+
 
 # carrying = False
 
@@ -100,15 +102,76 @@ def singleMove(forklift, grid):
             moveList.pop(0)
 
 
-                        # print(moveList)
-                        #
-                        # if moveList:
-                        #     if moveList[0]:
-                        #         print("Step: " + str(moveList[0].pop(0)))
-                        #         print('Lenght: ' + str(len(moveList)))
-                        # else:
-                        #     moveList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
-                        # print(objectList[0][0])
+            # print(moveList)
+            #
+            # if moveList:
+            #     if moveList[0]:
+            #         print("Step: " + str(moveList[0].pop(0)))
+            #         print('Lenght: ' + str(len(moveList)))
+            # else:
+            #     moveList.append(getAstarPath(grid, (forklift.x, forklift.y), objectList[0][1]))
+            # print(objectList[0][0])
+
+
+def calculatePath(forklift, grid, walls):
+    global coordinateList
+    global objectList
+    global lastForkliftPosition
+
+    if lastForkliftPosition is None:
+        lastForkliftPosition = (forklift.x, forklift.y)
+    else:
+        lastForkliftPosition = coordinateList[-1][-2]
+    coordinateList = []
+
+    print('coordinate list special:', coordinateList)
+    print('Walls second call:', walls)
+
+    for i in range(len(objectList)):
+        print('There is something in object list:')
+        print('Object list:', objectList)
+        if i == 0:
+            walls.remove(objectList[i][1])
+            coordinateList.append(getAstarPath(grid, lastForkliftPosition, objectList[i][1], walls))
+        else:
+            if i % 2 == 1:
+                coordinateList.append(
+                    getAstarPath(grid, (objectList[i - 1][1][0], objectList[i - 1][1][1]), objectList[i][1], walls))
+                if objectList[i][1] not in walls:
+                    walls.append(objectList[i][1])
+                print('Walls, third call:', walls)
+            else:
+                walls.remove(objectList[i][1])
+                coordinateList.append(getAstarPath(grid, (coordinateList[i - 1][len(coordinateList[i - 1]) - 2][0],
+                                                          coordinateList[i - 1][len(coordinateList[i - 1]) - 2][1]),
+                                                   objectList[i][1], walls))
+
+        print('Coordinate list:', coordinateList)
+
+        for step in range(len(coordinateList[i]) - 1):
+            first = coordinateList[i][step]
+            second = coordinateList[i][step + 1]
+            print('Coordinates First, second:', first, second)
+            print('Length of coordinate list of previous step:', len(coordinateList[i]) - 1)
+            print('step:', step)
+            if (first[0] == second[0]):
+                if first[1] > second[1]:
+                    moveList.append('up')
+                else:
+                    moveList.append('down')
+            else:
+                if (first[0] > second[0]):
+                    moveList.append('left')
+                else:
+                    moveList.append('right')
+            if step == len(coordinateList[i]) - 2 and i % 2 == 0:
+                moveList.append('liftPackage')
+            if step == len(coordinateList[i]) - 2 and i % 2 == 1:
+                moveList.append('lowerPackage')
+        print('Single moveList:', moveList)
+
+    objectList = []
+    print('Entire moveList:', moveList)
 
 
 def addNewMove(object, place):
@@ -167,7 +230,7 @@ def get_walls(grid):
 
 def getAstarPath(grid, start, end, walls):
     astar = AStar()
-    #walls = get_walls(grid)
+    # walls = get_walls(grid)
     print('Walls')
     print(walls)
     astar.init_grid(grid._HEIGHT, grid._WIDTH, walls, start, end)
@@ -245,7 +308,7 @@ def getPackageDistance(grid, package, x, y):
                                 list[3] = distance
                             if j.food and list[4] > distance:
                                 list[4] = distance
-                            # print(distance)
+                                # print(distance)
                         counter_columns += 1
                     counter_rows += 1
                 generalList.append([generalCounter + 1] + list)

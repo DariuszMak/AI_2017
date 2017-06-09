@@ -3,14 +3,15 @@ import collections
 import os
 import joblib
 
-class DecisionTree:
 
+class DecisionTree:
     def __init__(self, col=-1, value=None, trueBranch=None, falseBranch=None, results=None):
         self.col = col
         self.value = value
         self.trueBranch = trueBranch
         self.falseBranch = falseBranch
         self.results = results
+
 
 def divideSet(rows, column, value):
     splittingFunction = None
@@ -31,6 +32,7 @@ def uniqueCounts(rows):
         results[r] += 1
     return results
 
+
 def entropy(rows):
     from math import log
     log2 = lambda x: log(x) / log(2)
@@ -41,6 +43,7 @@ def entropy(rows):
         p = float(results[r]) / len(rows)
         entr -= p * log2(p)
     return entr
+
 
 def gini(rows):
     total = len(rows)
@@ -55,6 +58,7 @@ def gini(rows):
             imp += p1 * p2
     return imp
 
+
 def variance(rows):
     if len(rows) == 0: return 0
     data = [float(row[len(row) - 1]) for row in rows]
@@ -65,7 +69,6 @@ def variance(rows):
 
 
 def growDecisionTreeFrom(rows, evaluationFunction=entropy):
-
     if len(rows) == 0: return DecisionTree()
     currentScore = evaluationFunction(rows)
 
@@ -118,7 +121,6 @@ def prune(tree, minGain, evaluationFunction=entropy, notify=False):
 
 
 def classify(observations, tree, dataMissing=False):
-
     def classifyWithoutMissingData(observations, tree):
         if tree.results != None:  # leaf
             return tree.results
@@ -176,7 +178,6 @@ def classify(observations, tree, dataMissing=False):
 
 
 def plot(decisionTree):
-
     def toString(decisionTree, indent=''):
         if decisionTree.results != None:  # leaf node
             return str(decisionTree.results)
@@ -193,7 +194,6 @@ def plot(decisionTree):
 
 
 def loadCSV(file):
-
     def convertTypes(s):
         s = s.strip()
         try:
@@ -204,8 +204,8 @@ def loadCSV(file):
     reader = csv.reader(open(file, 'rt'))
     return [[convertTypes(item) for item in row] for row in reader]
 
-def calculateTest(testData, decisionTree):
 
+def calculateTest(testData, decisionTree):
     numbergood = 0
     number = 0
 
@@ -218,6 +218,7 @@ def calculateTest(testData, decisionTree):
 
     percent = numbergood / number * 100
     return print("Skuteczność wynosi %s %%" % (percent))
+
 
 def createTree():
     trainingData = loadCSV(os.path.join('tree', 'train.csv'))
