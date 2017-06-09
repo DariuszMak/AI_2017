@@ -130,21 +130,27 @@ def calculatePath(forklift, grid, walls):
     for i in range(len(objectList)):
         print('There is something in object list:')
         print('Object list:', objectList)
-        if i == 0:
+        if objectList[i][1] in walls:
             walls.remove(objectList[i][1])
-            coordinateList.append(getAstarPath(grid, lastForkliftPosition, objectList[i][1], walls))
-        else:
-            if i % 2 == 1:
-                coordinateList.append(
-                    getAstarPath(grid, (objectList[i - 1][1][0], objectList[i - 1][1][1]), objectList[i][1], walls))
-                if objectList[i][1] not in walls:
-                    walls.append(objectList[i][1])
-                print('Walls, third call:', walls)
+            if i == 0:
+                coordinateList.append(getAstarPath(grid, lastForkliftPosition, objectList[i][1], walls))
             else:
-                walls.remove(objectList[i][1])
                 coordinateList.append(getAstarPath(grid, (coordinateList[i - 1][len(coordinateList[i - 1]) - 2][0],
                                                           coordinateList[i - 1][len(coordinateList[i - 1]) - 2][1]),
                                                    objectList[i][1], walls))
+            # x, y = coordinateList[-1][-1]
+            # coordinateList[-1][-1] = (x, y, -1)
+        else:
+            if i == 0:
+                coordinateList.append(
+                    getAstarPath(grid, lastForkliftPosition, objectList[i][1], walls))
+            else:
+                coordinateList.append(
+                    getAstarPath(grid, (objectList[i - 1][1][0], objectList[i - 1][1][1]), objectList[i][1], walls))
+            if objectList[i][1] not in walls:
+                walls.append(objectList[i][1])
+            # coordinateList[-1].append((-2, -2))
+            print('Walls, third call:', walls)
 
         print('Coordinate list:', coordinateList)
 
