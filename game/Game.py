@@ -10,6 +10,7 @@ from .PackageInfoBox import PackageInfoBox
 from .display_settings import *
 from .Tick import Tick
 from tree.Tree import *
+from decision_tree.CART import get_data, encode_target
 
 
 def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox):
@@ -136,7 +137,31 @@ def run():
     filename = os.path.join('tree', 'tree.pkl')
 
     decisionTree = joblib.load(filename)
+    # LOAD DATA
+    filename = os.path.join('decision_tree', 'decision_tree.pkl')
+    dt = joblib.load(filename)
 
+    df = get_data('packages')
+
+    targetName = 'STATE'
+
+    print("* df.head()", df.head(), sep="\n", end="\n\n")
+    print("* df.tail()", df.tail(), sep="\n", end="\n\n")
+    print("* states types:", df[targetName].unique(), sep="\n")
+
+    df2, targets = encode_target(df, targetName)
+    print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
+    print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
+    print("* targets", targets, sep="\n", end="\n\n")
+
+    features = list(df2.columns[:6])
+    print("* features:", features, sep="\n")
+
+    y = df2['Target']
+    X = df2[features]
+
+
+    # LODA DATA
     plot(decisionTree)
 
     testData = loadCSV(os.path.join('tree', 'test.csv'))
@@ -245,6 +270,8 @@ def run():
     walls = get_walls(grid)
     calculatePath(forklift, grid, walls)
     addNewMove(None, (2, 9))
+    addNewMove(None, (1, 2))
+
     addNewMove(None, (1, 2))
     # walls = get_walls(grid)
     calculatePath(forklift, grid, walls)

@@ -4,7 +4,7 @@ from IPython.display import Image
 import os
 
 # os.environ["PATH"] += os.pathsep + 'C:/Program Files (x86)/Graphviz2.38/bin/'
-
+import joblib
 import pydotplus
 import subprocess
 
@@ -21,11 +21,14 @@ from subprocess import check_call
 
 
 def get_data(name):
+    df = []
+
     if os.path.exists(name + ".csv"):
         print("-- " + name + ".csv found locally")
         df = pd.read_csv(name + ".csv", index_col=None)
     else:
         print('Something went wrong...')
+        df = pd.read_csv("decision_tree/packages.csv", index_col= None)
     return df
 
 
@@ -73,74 +76,77 @@ def encode_target(df, target_column):
     df_mod["Target"] = df_mod[target_column].replace(map_to_int)
 
     return (df_mod, targets)
-
-
-df = get_data('packages')
-
-targetName = 'STATE'
-
-print("* df.head()", df.head(), sep="\n", end="\n\n")
-print("* df.tail()", df.tail(), sep="\n", end="\n\n")
-print("* states types:", df[targetName].unique(), sep="\n")
-
-df2, targets = encode_target(df, targetName)
-print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
-print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
-print("* targets", targets, sep="\n", end="\n\n")
-
-features = list(df2.columns[:6])
-print("* features:", features, sep="\n")
-
-y = df2['Target']
-X = df2[features]
-
-# dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
-
-dt = DecisionTreeClassifier()
-
-dt.fit(X, y)
-
-visualize_tree(dt, features, targets)
-
-# PREDICTING FEATURES
-
-
-# set = df2[features]
-set = [7.2, 3.1, 6.1, 1.7, 3, 3]
-set = np.array(set)
-set = set.reshape(1, -1)
-print(set)
-predict_result = dt.predict(set)
-print(predict_result)
-predict_result = [targets[i] for i in predict_result]
-print(predict_result)
-
-df3 = get_data('packages_test')
-
-test_features = list(df3.columns[:6])
-test_results = df3[targetName]
-test_results = test_results.tolist()
-print(test_results)
-
-predict_result = dt.predict(df3[test_features])
-print(predict_result)
-predict_result = [targets[i] for i in predict_result]
-print(predict_result)
-
-counter = 0
-counter2 = 0
-for i in predict_result:
-    if i == test_results[counter]:
-        counter2 += 1
-    counter += 1
-
-print('Accuracy: ', counter2 / counter * 100, '%')
-
-testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627],
-            [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
-testList = np.array(testList)
-print(testList)
-predict_result = dt.predict(testList)
-print(predict_result)
-predict_result = [targets[i] for i in predict_result]
-print(predict_result)
+#
+#
+# df = get_data('packages')
+#
+# targetName = 'STATE'
+#
+# print("* df.head()", df.head(), sep="\n", end="\n\n")
+# print("* df.tail()", df.tail(), sep="\n", end="\n\n")
+# print("* states types:", df[targetName].unique(), sep="\n")
+#
+# df2, targets = encode_target(df, targetName)
+# print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
+# print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
+# print("* targets", targets, sep="\n", end="\n\n")
+#
+# features = list(df2.columns[:6])
+# print("* features:", features, sep="\n")
+#
+# y = df2['Target']
+# X = df2[features]
+#
+# # dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
+#
+# dt = DecisionTreeClassifier()
+#
+# filename = os.path.join('decision_tree.pkl')
+# joblib.dump(dt, filename)
+#
+# dt.fit(X, y)
+#
+# visualize_tree(dt, features, targets)
+#
+# # PREDICTING FEATURES
+#
+#
+# # set = df2[features]
+# set = [7.2, 3.1, 6.1, 1.7, 3, 3]
+# set = np.array(set)
+# set = set.reshape(1, -1)
+# print(set)
+# predict_result = dt.predict(set)
+# print(predict_result)
+# predict_result = [targets[i] for i in predict_result]
+# print(predict_result)
+#
+# df3 = get_data('packages_test')
+#
+# test_features = list(df3.columns[:6])
+# test_results = df3[targetName]
+# test_results = test_results.tolist()
+# print(test_results)
+#
+# predict_result = dt.predict(df3[test_features])
+# print(predict_result)
+# predict_result = [targets[i] for i in predict_result]
+# print(predict_result)
+#
+# counter = 0
+# counter2 = 0
+# for i in predict_result:
+#     if i == test_results[counter]:
+#         counter2 += 1
+#     counter += 1
+#
+# print('Accuracy: ', counter2 / counter * 100, '%')
+#
+# testList = [[1, 0, 6.082762530298219, 2.8284271247461903, 2.23606797749979, 8.602325267042627],
+#             [2, 1.4142135623730951, 0, 2.8284271247461903, 2.23606797749979, 8.602325267042627]]
+# testList = np.array(testList)
+# print(testList)
+# predict_result = dt.predict(testList)
+# print(predict_result)
+# predict_result = [targets[i] for i in predict_result]
+# print(predict_result)
