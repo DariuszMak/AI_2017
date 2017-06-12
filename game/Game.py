@@ -1,6 +1,7 @@
 import pygame
 import os
 import joblib
+import numpy as np
 from commands.ForkliftCommand import *
 from commands.Grid import Grid
 from .Forklift import Forklift
@@ -10,7 +11,24 @@ from .PackageInfoBox import PackageInfoBox
 from .display_settings import *
 from .Tick import Tick
 from tree.Tree import *
+
 from decision_tree.CART import get_data, encode_target
+
+
+def getPackageDecision(grid, package, x, y, targets, dt):
+    testList = getPackageDistance(grid, package, x, y)
+    print('Testlist', package, x, y, testList)
+    testList = np.array(testList)
+    predict_result = dt.predict(testList)
+
+    predict_result = [targets[i] for i in predict_result]
+    print('Predict result', predict_result)
+    if 'WRONG' in predict_result:
+        print('print wrong')
+        return False
+    else:
+        print('print ok')
+        return True
 
 
 def game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox):
@@ -121,15 +139,15 @@ def run():
     packages = []
     packages.append(Package(False, False, False, True, False, None, 8, 13, 'little', 5))
     packages.append(Package(False, False, False, False, True, 'short', 10, 5, 'little', -10))
-    packages.append(Package(True, False, False, False, False, None, 25, 3, 'little', 25))
+    packages.append(Package(True, False, True, False, False, None, 25, 3, 'little', 25))
     packages.append(Package(False, False, False, True, False, None, 15, 4, 'mid', 10))
     packages.append(Package(False, False, False, False, True, 'short', 20, 10, 'big', -15))
-    packages.append(Package(True, False, False, False, False, None, 25, 2, 'mid', 20))
-    packages.append(Package(False, False, False, True, False, None, 18, 7, 'big', 2))
+    packages.append(Package(True, False, True, False, False, None, 25, 2, 'mid', 20))
+    packages.append(Package(False, False, True, True, False, None, 18, 7, 'big', 2))
     packages.append(Package(False, False, False, False, True, 'short', 5, 25, 'little', -5))
-    packages.append(Package(True, False, False, False, False, None, 55, 11, 'big', 25))
-    packages.append(Package(False, False, False, True, False, None, 22, 5, 'little', 10))
-    packages.append(Package(False, False, False, False, True, 'short', 8, 13, 'little', -20))
+    packages.append(Package(True, True, False, False, False, None, 55, 11, 'big', 25))
+    packages.append(Package(False, True, False, True, False, None, 22, 5, 'little', 10))
+    packages.append(Package(False, True, False, False, True, 'short', 8, 13, 'little', -20))
     packages.append(Package(True, False, False, False, False, None, 29, 7, 'little', 25))
 
     # createTree()
@@ -137,31 +155,27 @@ def run():
     filename = os.path.join('tree', 'tree.pkl')
 
     decisionTree = joblib.load(filename)
+
     # LOAD DATA
     filename = os.path.join('decision_tree', 'decision_tree.pkl')
     dt = joblib.load(filename)
-
     df = get_data('packages')
 
     targetName = 'STATE'
 
-    print("* df.head()", df.head(), sep="\n", end="\n\n")
-    print("* df.tail()", df.tail(), sep="\n", end="\n\n")
-    print("* states types:", df[targetName].unique(), sep="\n")
-
     df2, targets = encode_target(df, targetName)
-    print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
-    print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
-    print("* targets", targets, sep="\n", end="\n\n")
+    # LOAD DATA
 
-    features = list(df2.columns[:6])
-    print("* features:", features, sep="\n")
+    testList = getPackageDistance(grid, grid.grid[2][9], 1, 3)
 
-    y = df2['Target']
-    X = df2[features]
+    testList = np.array(testList)
+    print(testList)
+    predict_result = dt.predict(testList)
+    print(predict_result)
+    predict_result = [targets[i] for i in predict_result]
+    print('Predict result', predict_result)
+    print(getPackageDecision(grid, grid.grid[2][9], 1, 3, targets, dt))
 
-
-    # LODA DATA
     plot(decisionTree)
 
     testData = loadCSV(os.path.join('tree', 'test.csv'))
@@ -172,7 +186,7 @@ def run():
     # addNewMove(grid.grid[0][0], (14, 13))
     # addNewMove(None, (0, 0))
 
-    print('getPackageDistance:', getPackageDistance(grid, grid.grid[2][9], 1, 3))
+
 
     # if len(objectList) != 0:
     #     print('There is something')
@@ -210,6 +224,16 @@ def run():
         print('Package from grid:', grid.grid[random_number_x][random_number_y])
         walls = get_walls(grid)
         print('Walls first call:', walls)
+        for package_coordinates in walls:
+            print(package_coordinates)
+            x = 1
+            y = 1
+            print(grid.grid[package_coordinates[0]][package_coordinates[1]])
+            print('function call',
+                  getPackageDistance(grid, grid.grid[package_coordinates[0]][package_coordinates[1]], x, y))
+
+            x = random.randint(0, 9)
+            y = random.randint(0, 9)
         if isinstance(grid.grid[random_number_x][random_number_y], Package):
             packages.remove(package)
         else:
@@ -222,9 +246,12 @@ def run():
                 target = key
             if target == 'sectorA':
                 position = grid.grid[random_xa][random_ya]
-                while isinstance(position, Package) or position in walls:
+                decision = getPackageDecision(grid, package, random_xa, random_ya, targets, dt)
+                while (isinstance(position, Package) or position in walls) and decision is False:
                     random_ya += 1
                     position = grid.grid[random_xa][random_ya]
+                    decision = getPackageDecision(grid, package, random_xa, random_ya, targets,
+                                                  dt)
                 addNewMove(None, (random_xa, random_ya))
                 if random_ya >= 8:
                     if random_xa == 15:
@@ -235,11 +262,15 @@ def run():
                         random_ya = 0
                 else:
                     random_ya += 1
+
             if target == 'sectorB':
                 position = grid.grid[random_xb][random_yb]
-                while isinstance(position, Package) or position in walls:
+                decision = getPackageDecision(grid, package, random_xa, random_ya, targets, dt)
+                while (isinstance(position, Package) or position in walls) and decision is False:
                     random_xb += 1
                     position = grid.grid[random_xb][random_yb]
+                    decision = getPackageDecision(grid, package, random_xa, random_ya, targets,
+                                                  dt)
                 addNewMove(None, (random_xb, random_yb))
                 if random_xb >= 5:
                     if random_yb == 0:
@@ -252,9 +283,12 @@ def run():
                     random_xb += 1
             if target == 'sectorC':
                 position = grid.grid[random_xc][random_yc]
-                while isinstance(position, Package) or position in walls:
+                decision = getPackageDecision(grid, package, random_xa, random_ya, targets, dt)
+                while (isinstance(position, Package) or position in walls) and decision is False:
                     random_xc += 1
                     position = grid.grid[random_xc][random_yc]
+                    decision = getPackageDecision(grid, package, random_xa, random_ya, targets,
+                                                  dt)
                 addNewMove(None, (random_xc, random_yc))
                 if random_xc >= 5:
                     if random_yc == 6:
@@ -272,9 +306,9 @@ def run():
     addNewMove(None, (2, 9))
     addNewMove(None, (1, 2))
 
-    addNewMove(None, (1, 2))
     # walls = get_walls(grid)
     calculatePath(forklift, grid, walls)
+
     forkliftCommandInit(forklift, grid)
     game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox)
 

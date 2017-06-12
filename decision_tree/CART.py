@@ -28,7 +28,7 @@ def get_data(name):
         df = pd.read_csv(name + ".csv", index_col=None)
     else:
         print('Something went wrong...')
-        df = pd.read_csv("decision_tree/packages.csv", index_col= None)
+        df = pd.read_csv("decision_tree/packages.csv", index_col=None)
     return df
 
 
@@ -76,6 +76,7 @@ def encode_target(df, target_column):
     df_mod["Target"] = df_mod[target_column].replace(map_to_int)
 
     return (df_mod, targets)
+
 #
 #
 # df = get_data('packages')
@@ -101,11 +102,12 @@ def encode_target(df, target_column):
 #
 # dt = DecisionTreeClassifier()
 #
-# filename = os.path.join('decision_tree.pkl')
-# joblib.dump(dt, filename)
+#
 #
 # dt.fit(X, y)
 #
+# filename = os.path.join('decision_tree.pkl')
+# joblib.dump(dt, filename)
 # visualize_tree(dt, features, targets)
 #
 # # PREDICTING FEATURES

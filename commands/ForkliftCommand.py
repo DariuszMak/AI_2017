@@ -138,8 +138,8 @@ def calculatePath(forklift, grid, walls):
                 coordinateList.append(getAstarPath(grid, (coordinateList[i - 1][len(coordinateList[i - 1]) - 2][0],
                                                           coordinateList[i - 1][len(coordinateList[i - 1]) - 2][1]),
                                                    objectList[i][1], walls))
-            # x, y = coordinateList[-1][-1]
-            # coordinateList[-1][-1] = (x, y, -1)
+                # x, y = coordinateList[-1][-1]
+                # coordinateList[-1][-1] = (x, y, -1)
         else:
             if i == 0:
                 coordinateList.append(
