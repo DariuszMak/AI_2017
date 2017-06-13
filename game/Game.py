@@ -141,13 +141,13 @@ def run():
     packages.append(Package(False, False, False, False, True, 'short', 10, 5, 'little', -10))
     packages.append(Package(True, False, True, False, False, None, 25, 3, 'little', 25))
     packages.append(Package(False, False, False, True, False, None, 15, 4, 'mid', 10))
-    packages.append(Package(False, False, False, False, True, 'short', 20, 10, 'big', -15))
+    packages.append(Package(False, False, True, False, False, None, 20, 10, 'big', -15))
     packages.append(Package(True, False, True, False, False, None, 25, 2, 'mid', 20))
     packages.append(Package(False, False, True, True, False, None, 18, 7, 'big', 2))
-    packages.append(Package(False, False, False, False, True, 'short', 5, 25, 'little', -5))
+    packages.append(Package(False, True, False, False, False, None, 5, 25, 'little', -5))
     packages.append(Package(True, True, False, False, False, None, 55, 11, 'big', 25))
     packages.append(Package(False, True, False, True, False, None, 22, 5, 'little', 10))
-    packages.append(Package(False, True, False, False, True, 'short', 8, 13, 'little', -20))
+    packages.append(Package(False, True, False, False, False, None, 8, 13, 'little', -20))
     packages.append(Package(True, False, False, False, False, None, 29, 7, 'little', 25))
 
     # createTree()
@@ -247,7 +247,8 @@ def run():
             if target == 'sectorA':
                 position = grid.grid[random_xa][random_ya]
                 decision = getPackageDecision(grid, package, random_xa, random_ya, targets, dt)
-                while (isinstance(position, Package) or position in walls) and decision is False:
+                #while (isinstance(position, Package) or position in walls)
+                if (decision is False):
                     random_ya += 1
                     position = grid.grid[random_xa][random_ya]
                     decision = getPackageDecision(grid, package, random_xa, random_ya, targets,
@@ -265,11 +266,12 @@ def run():
 
             if target == 'sectorB':
                 position = grid.grid[random_xb][random_yb]
-                decision = getPackageDecision(grid, package, random_xa, random_ya, targets, dt)
-                while (isinstance(position, Package) or position in walls) and decision is False:
+                decision = getPackageDecision(grid, package, random_xb, random_yb, targets, dt)
+                #while (isinstance(position, Package) or position in walls)
+                if (decision is False):
                     random_xb += 1
                     position = grid.grid[random_xb][random_yb]
-                    decision = getPackageDecision(grid, package, random_xa, random_ya, targets,
+                    decision = getPackageDecision(grid, package, random_xb, random_yb, targets,
                                                   dt)
                 addNewMove(None, (random_xb, random_yb))
                 if random_xb >= 5:
@@ -283,11 +285,12 @@ def run():
                     random_xb += 1
             if target == 'sectorC':
                 position = grid.grid[random_xc][random_yc]
-                decision = getPackageDecision(grid, package, random_xa, random_ya, targets, dt)
-                while (isinstance(position, Package) or position in walls) and decision is False:
+                decision = getPackageDecision(grid, package, random_xc, random_yc, targets, dt)
+                #while (isinstance(position, Package) or position in walls)
+                if (decision is False):
                     random_xc += 1
                     position = grid.grid[random_xc][random_yc]
-                    decision = getPackageDecision(grid, package, random_xa, random_ya, targets,
+                    decision = getPackageDecision(grid, package, random_xc, random_yc, targets,
                                                   dt)
                 addNewMove(None, (random_xc, random_yc))
                 if random_xc >= 5:
