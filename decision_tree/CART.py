@@ -77,35 +77,32 @@ def encode_target(df, target_column):
 
     return (df_mod, targets)
 
-#
-#
-# df = get_data('packages')
-#
-# targetName = 'STATE'
-#
-# print("* df.head()", df.head(), sep="\n", end="\n\n")
-# print("* df.tail()", df.tail(), sep="\n", end="\n\n")
-# print("* states types:", df[targetName].unique(), sep="\n")
-#
-# df2, targets = encode_target(df, targetName)
-# print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
-# print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
-# print("* targets", targets, sep="\n", end="\n\n")
-#
-# features = list(df2.columns[:6])
-# print("* features:", features, sep="\n")
-#
-# y = df2['Target']
-# X = df2[features]
-#
-# # dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
-#
-# dt = DecisionTreeClassifier()
-#
-#
-#
-# dt.fit(X, y)
-#
+
+df = get_data('packages')
+
+targetName = 'STATE'
+
+print("* df.head()", df.head(), sep="\n", end="\n\n")
+print("* df.tail()", df.tail(), sep="\n", end="\n\n")
+print("* states types:", df[targetName].unique(), sep="\n")
+
+df2, targets = encode_target(df, targetName)
+print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
+print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
+print("* targets", targets, sep="\n", end="\n\n")
+
+features = list(df2.columns[:6])
+print("* features:", features, sep="\n")
+
+y = df2['Target']
+X = df2[features]
+
+# dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
+
+dt = DecisionTreeClassifier()
+
+dt.fit(X, y)
+
 # filename = os.path.join('decision_tree.pkl')
 # joblib.dump(dt, filename)
 # visualize_tree(dt, features, targets)

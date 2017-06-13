@@ -12,7 +12,7 @@ from .display_settings import *
 from .Tick import Tick
 from tree.Tree import *
 
-from decision_tree.CART import get_data, encode_target
+from decision_tree.CART import encode_target, df, dt, targetName
 
 
 def getPackageDecision(grid, package, x, y, targets, dt):
@@ -157,11 +157,11 @@ def run():
     decisionTree = joblib.load(filename)
 
     # LOAD DATA
-    filename = os.path.join('decision_tree', 'decision_tree.pkl')
-    dt = joblib.load(filename)
-    df = get_data('packages')
-
-    targetName = 'STATE'
+    # filename = os.path.join('decision_tree', 'decision_tree.pkl')
+    # dt = joblib.load(filename)
+    # df = get_data('packages')
+    #
+    # targetName = 'STATE'
 
     df2, targets = encode_target(df, targetName)
     # LOAD DATA
