@@ -23,8 +23,8 @@ lastForkliftPosition = None
 
 def singleMove(forklift, grid):
     # print(coordinateList)
-    print(moveList)
-    print(forklift.direction)
+    # print(moveList)
+    # print(forklift.direction)
     print(Forklift.getPossibleActions(
         forklift.x, forklift.y,
         forklift.direction,
