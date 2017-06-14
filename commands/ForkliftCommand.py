@@ -23,12 +23,12 @@ lastForkliftPosition = None
 
 def singleMove(forklift, grid):
     # print(coordinateList)
-    #print(moveList)
-    #print(forklift.direction)
-    #print(Forklift.getPossibleActions(
-        #forklift.x, forklift.y,
-        #forklift.direction,
-        #forklift.carryingPackage, grid))
+    # print(moveList)
+    # print(forklift.direction)
+    print(Forklift.getPossibleActions(
+        forklift.x, forklift.y,
+        forklift.direction,
+        forklift.carryingPackage, grid))
     if moveList:
         random_number = random.randint(0, 1)
 

@@ -311,11 +311,10 @@ def run():
 
     walls = get_walls(grid)
     calculatePath(forklift, grid, walls)
-    addNewMove(None, (2, 9))
-    addNewMove(None, (1, 2))
+    # addNewMove(None, (2, 9))
+    # addNewMove(None, (1, 2))
 
-    # walls = get_walls(grid)
-    calculatePath(forklift, grid, walls)
+    # calculatePath(forklift, grid, walls)
 
     forkliftCommandInit(forklift, grid)
     game_loop(gameDisplay, clock, tick, grid, forklift, font, carryingPackageInfoBox, mousePackageInfoBox)
