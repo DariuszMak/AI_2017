@@ -123,7 +123,7 @@ class AStar(object):
         adj.h = self.get_heuristic(adj)
         adj.parent = cell
         adj.f = adj.h + adj.g
-        print('Updated coordinates: ', adj.x, adj.y)
+        #print('Updated coordinates: ', adj.x, adj.y)
 
     def solve(self):
         """Solve maze, find path to ending cell.
@@ -151,9 +151,9 @@ class AStar(object):
                         # for this adj cell.
                         if adj_cell.g > cell.g + 10:
                             self.update_cell(adj_cell, cell)
-                            print('Checked better path: ', adj_cell.x, adj_cell.y)
+                            #print('Checked better path: ', adj_cell.x, adj_cell.y)
                     else:
                         self.update_cell(adj_cell, cell)
                         # add adj cell to open list
-                        print('Heap push: ', adj_cell.x, adj_cell.y)
+                        #print('Heap push: ', adj_cell.x, adj_cell.y)
                         heapq.heappush(self.opened, (adj_cell.f, adj_cell))

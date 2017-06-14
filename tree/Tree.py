@@ -1,3 +1,5 @@
+# coding: utf-8
+
 import csv
 import collections
 import os
@@ -190,7 +192,7 @@ def plot(decisionTree):
             falseBranch = indent + 'no  -> ' + toString(decisionTree.falseBranch, indent + '\t\t')
             return (decision + '\n' + trueBranch + '\n' + falseBranch)
 
-    print(toString(decisionTree))
+    #print(toString(decisionTree))
 
 
 def loadCSV(file):
@@ -217,7 +219,7 @@ def calculateTest(testData, decisionTree):
         number += 1
 
     percent = numbergood / number * 100
-    return print("Skuteczność wynosi %s %%" % (percent))
+    #return print("Skuteczność wynosi %s %%" % (percent))
 
 
 def createTree():

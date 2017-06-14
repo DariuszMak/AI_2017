@@ -11,23 +11,28 @@ from .PackageInfoBox import PackageInfoBox
 from .display_settings import *
 from .Tick import Tick
 from tree.Tree import *
+from nn.NN import *
 
 from decision_tree.CART import encode_target, df, dt, targetName
 
 
 def getPackageDecision(grid, package, x, y, targets, dt):
     testList = getPackageDistance(grid, package, x, y)
-    print('Testlist', package, x, y, testList)
+    #print('Testlist', package, x, y, testList)
     testList = np.array(testList)
     predict_result = dt.predict(testList)
 
     predict_result = [targets[i] for i in predict_result]
-    print('Predict result', predict_result)
-    if 'WRONG' in predict_result:
-        print('print wrong')
+
+    nn = NN()
+    result = nn.getPackageDecision(grid, package, x, y, targets, dt)
+
+    #print('Predict result', predict_result)
+    if ('WRONG' in predict_result) or result[0] == 0:
+        #print('print wrong')
         return False
     else:
-        print('print ok')
+        #print('print ok')
         return True
 
 
@@ -169,12 +174,12 @@ def run():
     testList = getPackageDistance(grid, grid.grid[2][9], 1, 3)
 
     testList = np.array(testList)
-    print(testList)
+    #print(testList)
     predict_result = dt.predict(testList)
-    print(predict_result)
+    #print(predict_result)
     predict_result = [targets[i] for i in predict_result]
-    print('Predict result', predict_result)
-    print(getPackageDecision(grid, grid.grid[2][9], 1, 3, targets, dt))
+    #print('Predict result', predict_result)
+    #print(getPackageDecision(grid, grid.grid[2][9], 1, 3, targets, dt))
 
     plot(decisionTree)
 
@@ -221,16 +226,16 @@ def run():
     for package in packages:
         random_number_x = random.randint(6, 10)
         random_number_y = random.randint(0, 9)
-        print('Package from grid:', grid.grid[random_number_x][random_number_y])
+        #print('Package from grid:', grid.grid[random_number_x][random_number_y])
         walls = get_walls(grid)
-        print('Walls first call:', walls)
+        #print('Walls first call:', walls)
         for package_coordinates in walls:
-            print(package_coordinates)
+            #print(package_coordinates)
             x = 1
             y = 1
-            print(grid.grid[package_coordinates[0]][package_coordinates[1]])
-            print('function call',
-                  getPackageDistance(grid, grid.grid[package_coordinates[0]][package_coordinates[1]], x, y))
+            #print(grid.grid[package_coordinates[0]][package_coordinates[1]])
+            #print('function call',
+                  #getPackageDistance(grid, grid.grid[package_coordinates[0]][package_coordinates[1]], x, y))
 
             x = random.randint(0, 9)
             y = random.randint(0, 9)
@@ -241,7 +246,7 @@ def run():
             addNewMove(None, (random_number_x, random_number_y))
             result = classify([package.weight, package.timeOnMagazine, package.size, package.storageTemperature],
                               decisionTree)
-            print('Result:', result)
+            #print('Result:', result)
             for key in result:
                 target = key
             if target == 'sectorA':
@@ -302,7 +307,7 @@ def run():
                         random_xc = 0
                 else:
                     random_xc += 1
-            print('Target:', target)
+            #print('Target:', target)
 
     walls = get_walls(grid)
     calculatePath(forklift, grid, walls)

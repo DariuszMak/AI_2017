@@ -7,7 +7,7 @@ from game.Forklift import Forklift
 
 logging.basicConfig(level=logging.DEBUG,
                     format=' %(asctime)s - %(levelname)s- %(message)s')
-logging.debug('Start of program')
+#logging.debug('Start of program')
 
 objectList = []
 
@@ -23,12 +23,12 @@ lastForkliftPosition = None
 
 def singleMove(forklift, grid):
     # print(coordinateList)
-    print(moveList)
-    print(forklift.direction)
-    print(Forklift.getPossibleActions(
-        forklift.x, forklift.y,
-        forklift.direction,
-        forklift.carryingPackage, grid))
+    #print(moveList)
+    #print(forklift.direction)
+    #print(Forklift.getPossibleActions(
+        #forklift.x, forklift.y,
+        #forklift.direction,
+        #forklift.carryingPackage, grid))
     if moveList:
         random_number = random.randint(0, 1)
 
@@ -124,12 +124,12 @@ def calculatePath(forklift, grid, walls):
         lastForkliftPosition = coordinateList[-1][-2]
     coordinateList = []
 
-    print('coordinate list special:', coordinateList)
-    print('Walls second call:', walls)
+    #print('coordinate list special:', coordinateList)
+    #print('Walls second call:', walls)
 
     for i in range(len(objectList)):
-        print('There is something in object list:')
-        print('Object list:', objectList)
+        #print('There is something in object list:')
+        #print('Object list:', objectList)
         if objectList[i][1] in walls:
             walls.remove(objectList[i][1])
             if i == 0:
@@ -150,16 +150,16 @@ def calculatePath(forklift, grid, walls):
             if objectList[i][1] not in walls:
                 walls.append(objectList[i][1])
             # coordinateList[-1].append((-2, -2))
-            print('Walls, third call:', walls)
+            #print('Walls, third call:', walls)
 
-        print('Coordinate list:', coordinateList)
+        #print('Coordinate list:', coordinateList)
 
         for step in range(len(coordinateList[i]) - 1):
             first = coordinateList[i][step]
             second = coordinateList[i][step + 1]
-            print('Coordinates First, second:', first, second)
-            print('Length of coordinate list of previous step:', len(coordinateList[i]) - 1)
-            print('step:', step)
+            #print('Coordinates First, second:', first, second)
+            #print('Length of coordinate list of previous step:', len(coordinateList[i]) - 1)
+            #print('step:', step)
             if (first[0] == second[0]):
                 if first[1] > second[1]:
                     moveList.append('up')
@@ -174,10 +174,10 @@ def calculatePath(forklift, grid, walls):
                 moveList.append('liftPackage')
             if step == len(coordinateList[i]) - 2 and i % 2 == 1:
                 moveList.append('lowerPackage')
-        print('Single moveList:', moveList)
+        #print('Single moveList:', moveList)
 
     objectList = []
-    print('Entire moveList:', moveList)
+    #print('Entire moveList:', moveList)
 
 
 def addNewMove(object, place):
@@ -185,7 +185,7 @@ def addNewMove(object, place):
 
 
 def forkliftCommandInit(forklift, grid):
-    print('Here is forklift command init')
+    #print('Here is forklift command init')
     pass
 
 
@@ -194,8 +194,8 @@ def forkliftCommand(forklift, grid):
     # print(getAstarPath(grid, (forklift.x,forklift.y), (3,2)))
 
     singleMove(forklift, grid)
-    printLog(forklift, grid)
-    printPossibleActions(forklift, grid)
+    #printLog(forklift, grid)
+    #printPossibleActions(forklift, grid)
 
 
 def printLog(forklift, grid):
@@ -237,8 +237,8 @@ def get_walls(grid):
 def getAstarPath(grid, start, end, walls):
     astar = AStar()
     # walls = get_walls(grid)
-    print('Walls')
-    print(walls)
+    #print('Walls')
+    #print(walls)
     astar.init_grid(grid._HEIGHT, grid._WIDTH, walls, start, end)
     return astar.solve()
 
@@ -246,7 +246,7 @@ def getAstarPath(grid, start, end, walls):
 def getPackageDistance(grid, package, x, y):
     if isinstance(package, Package):
         packageProperties = [False] * 5
-        print(packageProperties)
+        #print(packageProperties)
         if package.flammable:
             packageProperties[0] = True
         if package.explosive:
@@ -266,7 +266,7 @@ def getPackageDistance(grid, package, x, y):
         if not boolTemp:
             return None
 
-        print(packageProperties)
+        #print(packageProperties)
         generalList = []
         generalCounter = 0
 

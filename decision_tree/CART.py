@@ -24,10 +24,10 @@ def get_data(name):
     df = []
 
     if os.path.exists(name + ".csv"):
-        print("-- " + name + ".csv found locally")
+        #print("-- " + name + ".csv found locally")
         df = pd.read_csv(name + ".csv", index_col=None)
     else:
-        print('Something went wrong...')
+        #print('Something went wrong...')
         df = pd.read_csv("decision_tree/packages.csv", index_col=None)
     return df
 
@@ -82,17 +82,17 @@ df = get_data('packages')
 
 targetName = 'STATE'
 
-print("* df.head()", df.head(), sep="\n", end="\n\n")
-print("* df.tail()", df.tail(), sep="\n", end="\n\n")
-print("* states types:", df[targetName].unique(), sep="\n")
+#print("* df.head()", df.head(), sep="\n", end="\n\n")
+#print("* df.tail()", df.tail(), sep="\n", end="\n\n")
+#print("* states types:", df[targetName].unique(), sep="\n")
 
 df2, targets = encode_target(df, targetName)
-print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
-print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
-print("* targets", targets, sep="\n", end="\n\n")
+#print("* df2.head()", df2[["Target", targetName]].head(), sep="\n", end="\n\n")
+#print("* df2.tail()", df2[["Target", targetName]].tail(), sep="\n", end="\n\n")
+#print("* targets", targets, sep="\n", end="\n\n")
 
 features = list(df2.columns[:6])
-print("* features:", features, sep="\n")
+#print("* features:", features, sep="\n")
 
 y = df2['Target']
 X = df2[features]
