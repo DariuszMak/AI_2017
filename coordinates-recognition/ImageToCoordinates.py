@@ -18,7 +18,6 @@ a = ImageToArrays(['coordinates.png'])
 a.generateArraysNormalized()
 
 
-print(isEmpty(a.arraysNormalized[0][0][0]))
 
 
 mysum = 0
